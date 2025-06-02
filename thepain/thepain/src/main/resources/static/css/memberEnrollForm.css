@@ -1,0 +1,147 @@
+@charset "UTF-8";
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 10px;
+            background-color: #2d4878;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-inner {
+            font-size: 40px;
+            color: white;
+        }
+        .braces {
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+        }
+        .star {
+            color: #65c466;
+            font-size: 30px;
+            position: relative;
+        }
+        .brand-name {
+            margin-bottom: 30px;
+        }
+        .drsp {
+            color: #65c466;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        .recruitment {
+            color: #2d4878;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            background-color: #f2f3f4;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        .corporation-group {
+            display: flex;
+            align-items: center;
+        }
+        .corporation-group input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .corporation-btn {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: #555;
+        }
+        .sign-in-btn {
+            width: 100%;
+            background-color: #6573e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .made-with {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /*이메일 전송 성공 문구 div*/
+        button:hover{
+        	cursor: pointer;
+        }
+        .email-section{
+        	display: flex;
+        }
+        input[type=email]{
+        	border-bottom-right-radius: 0px;
+        	border-top-right-radius: 0px;
+        }
+        .email-section input[type=text]{
+        	border-bottom-right-radius: 0px;
+        	border-top-right-radius: 0px;
+        }
+        .emailCheckBtn{	
+        	width: 20%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: #f2f3f4;
+            color: gray;
+        }
+        #emailCode{
+        	display: none;
+        }
+        #codeResult, #codeResult2{
+        	color: green;
+        	font-size:small;
+        	text-align: center;
+        }
+        
+        

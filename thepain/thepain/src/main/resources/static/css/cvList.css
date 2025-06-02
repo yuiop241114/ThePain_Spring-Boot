@@ -1,0 +1,70 @@
+@charset "UTF-8";
+ body {
+           background-color: #fff;
+      		display:flex;
+      		margin:0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin:50px auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .upload {
+            background-color: #6366f1;
+        }
+        
+        .save {
+            background-color: #6366f1;
+        }
+        
+        .file-list {
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+        
+        .file-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .file-name {
+            font-size: 16px;
+        }

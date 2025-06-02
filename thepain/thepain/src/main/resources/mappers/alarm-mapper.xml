@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="alarmMapper">
+
+<resultMap id="alarmResult" type="Alarm">
+	<result column="alarm_no" property="alarmNo"/>
+	<result column="member_no" property="memberNo"/>
+	<result column="alert_content" property="alarmContent"/>
+	<result column="alert_check" property="alarmCheck"/>	
+	<result column="alert_time" property="alarmDate"/>
+	<result column="sender_no" property ="senderNo"/>
+	<result column="receiver_no" property ="receiverNo"/>
+</resultMap>
+<resultMap id="alarmHistoryResult" type="AlarmHistory">
+    <result column="alarm_history_no" property="alarmHistoryNo"/>
+    <result column="alarm_no" property="alarmNo"/>
+    <result column="receiver_member_no" property="receiverNo"/>
+    <result column="sender_member_no" property="senderNo"/>
+    <result column="alarm_content" property="alarmHistoryContent"/>
+    <result column="create_date" property="createDate"/>
+</resultMap>
+
+
+
+
+    <select id="selectAlarmByNo" resultMap="alarmResult">
+        SELECT *
+        FROM alarm
+        WHERE alarm_no = #{alarmNo}
+    </select>
+    
+    
+    <insert id="insertAlarmHistory" >
+     
+    insert into alarm_history(
+        alarm_history_no,
+        alarm_no,
+        receiver_member_no,
+        sender_member_no,
+        alarm_content,
+        create_date
+    ) VALUES (
+        seq_alarm_history_no.nextval,
+        #{alarmNo},
+        #{receiverNo},
+        #{senderNo},
+        #{alarmHistoryContent},
+        SYSDATE
+    )
+</insert>
+    
+    
+    <!-- alarmMapper.xml -->
+
+<select id="selectAlarmListByReceiver"  resultMap="alarmHistoryResult">
+    SELECT 
+        ALARM_HISTORY_NO,
+        RECEIVER_MEMBER_NO,
+        SENDER_MEMBER_NO,
+        ALARM_NO,
+        ALARM_CONTENT,
+        CREATE_DATE
+    FROM 
+        ALARM_HISTORY
+    WHERE 
+        RECEIVER_MEMBER_NO = #{memberNo}
+    ORDER BY 
+        CREATE_DATE DESC
+</select>
+
+		<select id="isAlreadySent" resultType="_int">
+		    SELECT COUNT(*)
+            FROM alarm_history ah
+            JOIN alarm a ON a.alarm_no = ah.alarm_no
+            WHERE sender_member_no = #{senderNo}
+            AND a.alarm_no = #{alarmNo}
+		</select>
+		
+		
+		
+		
+		<select id="isAlreadySentAlarm" resultType="_int">
+		
+		  SELECT COUNT(*)
+            FROM alarm_history ah
+            JOIN alarm a ON a.alarm_no = ah.alarm_no
+            WHERE sender_member_no =#{senderNo}
+            and receiver_member_no = #{receiverNo}
+            and alarm_content = #{alarmHistoryContent}
+		</select>
+           
+
+</mapper>

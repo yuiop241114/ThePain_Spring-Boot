@@ -1,0 +1,180 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+body {
+	background-color: #fff;
+	display: flex;
+}
+
+.container {
+	display: flex;
+	width: 80%;
+	margin: 50px auto;
+}
+
+.sidebar {
+	border-right: 1px solid #eee;
+	height: 100vh;
+	padding: 20px;
+	width: 100%;
+}
+
+.main-content {
+	flex: 1;
+	padding: 20px;
+}
+
+.back-button {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	text-decoration: none;
+	color: #333;
+}
+
+.search-container {
+	margin-bottom: 20px;
+}
+
+.search-input {
+	width: 100%;
+	padding: 10px 15px;
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	outline: none;
+	font-size: 14px;
+}
+
+.categories {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.category {
+	padding: 8px 15px;
+	background-color: #f5f5f5;
+	border-radius: 20px;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.category.active {
+	background-color: #3b82f6; /* 진한 파랑 (#2563eb, #1d4ed8 도 추천 가능) */
+	color: white;
+}
+
+.checkbox-filters {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 20px;
+}
+
+.checkbox-filter {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 13px;
+}
+
+.card-grid {
+	display: flex;
+	  flex-wrap: wrap; /* 🔥 wrap 설정으로 줄 바꿈 허용 */
+	  gap: 20px;
+	  justify-content: flex-start;
+}
+
+.card {
+  width: 300px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  background: white;
+  transition: background 0.3s ease, transform 0.2s ease; /* 🔥 전환 부드럽게 */
+  	  cursor: pointer;
+  
+}
+.card:hover {
+  background: linear-gradient(135deg, #f0f8ff, #e6f0ff); /* 💙 옅은 파랑 그라데이션 */
+  transform: translateY(-3px); /* 살짝 떠오르게 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 그림자 추가 */
+}
+
+
+.card-image {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+}
+
+.card-content {
+	padding: 15px;
+}
+
+.card-title {
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.card-subtitle {
+	font-size: 12px;
+	color: #2a7de1;
+	margin-bottom: 5px;
+}
+
+.card-author {
+	font-size: 11px;
+	color: #666;
+}
+
+
+
+.like-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+
+.heart-icon {
+  fill: none;              /* ✅ 비어있는 하트로 만들기 */
+  stroke: #ccc;            /* 회색 테두리 */
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  
+}
+
+.heart-icon.filled {
+    fill: #ff3366;
+    stroke: #ff3366;
+}
+/* 모든 인풋 요소의 높이와 폰트, 패딩 통일 */
+.uniform-input {
+  height: 38px;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: none;
+  appearance: none; /* 브라우저 기본 스타일 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Safari 캘린더 버튼 정렬 보정 (선택사항) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.3);
+  margin-right: 4px;
+}

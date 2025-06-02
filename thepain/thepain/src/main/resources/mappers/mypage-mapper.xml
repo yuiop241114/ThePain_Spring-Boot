@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapper">
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<result column="file_no" property="fileNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="recruitment_no" property="recruitmentNo" />
+		<result column="file_origin_name" property="fileOriginName" />
+		<result column="file_edit_name" property="fileEditName" />
+		<result column="file_root" property="fileRoot" />
+		<result column="file_type" property="fileType" />
+	</resultMap>
+	
+	<resultMap id="postListResultSet" type="postList">
+ 		<result column="recruitment_no" property="recruitmentNo"/>
+ 		<result column="member_no" property="memberNO"/>
+ 		<result column="enterprise_no" property="enterpriseNo"/>
+ 		<result column="recruitment_date" property="recruitmentDate"/>
+ 		<result column="count" property="count"/>
+ 		<result column="status" property="status"/>
+ 		
+ 		
+	    <result column="company_name" property="companyName"/>
+	    <result column="hire_type" property="hireType"/>
+	    <result column="start_salary" property="salaryMin"/>
+	    <result column="end_salary" property="salaryMax"/>
+	    <result column="require_description" property="description"/>
+	    <result column="main_duties" property="duty"/>
+	    <result column="nice_to_have_skills" property="benefits"/>
+	    <result column="deadLine" property="deadLine"/>
+	    
+	      <result column="POST_TITLE" property="title"/>
+ 	</resultMap>
+	
+	<resultMap type="Apply" id="applyResultSet">
+		<result column="RECRUITMENT_NO" property="rmNo" />
+		<result column="MEMBER_NO2" property="memberNo" />
+		<result column="FILE_NO" property="fileNo" />
+		<result column="APPLY_DATE" property="applyDate" />
+		<result column="READ" property="read" />
+		<result column="README" property="readMe" />
+		<result column="RESULT" property="result" />
+	</resultMap>
+
+	<resultMap type="Member" id="memberResultSet">
+		<result column="member_no" property="memberNo" />
+		<result column="enterprise_no" property="enterpriseNo" />
+		<result column="email" property="email" />
+		<result column="member_pwd" property="memberPwd" />
+		<result column="member_name" property="memberName" />
+		<result column="phone" property="phone" />
+		<result column="token" property="token" />
+		<result column="skill" property="skill" />
+		<result column="career" property="career" />
+	</resultMap>
+
+	<insert id="resumeInsert">
+		insert
+		into attachment
+		<choose>
+			<when test="recruitmentNo != 0">
+						(
+				FILE_NO
+				, MEMBER_NO
+				, RECRUITMENT_NO
+				,FILE_ORIGIN_NAME
+				, FILE_EDIT_NAME
+				, FILE_ROOT
+				, FILE_TYPE
+				)
+				values
+				(
+				seq_file_no.nextval
+				, #{ memberNo }
+				, #{recruitmentNo}
+				, #{ fileOriginName }
+				, #{fileEditName }
+				, #{ fileRoot }
+				, #{ fileType }
+				)
+			</when>
+			<otherwise>
+					(
+				FILE_NO
+				, MEMBER_NO
+				,
+				FILE_ORIGIN_NAME
+				, FILE_EDIT_NAME
+				, FILE_ROOT
+				, FILE_TYPE
+				)
+				values
+				(
+				seq_file_no.nextval
+				, #{ memberNo }
+				, #{ fileOriginName }
+				, #{
+				fileEditName }
+				, #{ fileRoot }
+				, #{ fileType }
+				)
+			</otherwise>
+		</choose>
+	</insert>
+
+	<insert id="resumeInsertAs">
+		insert
+		into attachment
+		(
+		FILE_NO
+		, MEMBER_NO,
+		FILE_ORIGIN_NAME
+		, FILE_EDIT_NAME
+		, FILE_ROOT
+		, FILE_TYPE
+		)
+		values
+		(
+		seq_file_no.nextval
+		, #{ memberNo }
+		, #{ fileOriginName }
+		, #{fileEditName }
+		, #{ fileRoot }
+		, #{ fileType }
+		)
+	</insert>
+
+	<select id="resumeList" resultMap="attachmentResultSet">
+		select
+		file_no
+		, member_no
+		,file_origin_name
+		, file_edit_name
+		, file_root
+		, file_type
+		from attachment
+		where member_no = #{memberNo}
+		and file_type = '이력서'
+
+	</select>
+
+	<delete id="resumeDelete" parameterType="java.util.ArrayList">
+		delete 
+		  from attachment
+		 where file_no 
+		    in 
+		    <foreach item="i" collection="list" open="(" separator="," close=")">
+		    	#{i.fileNo}
+		    </foreach>
+	</delete>
+
+	<select id="selectLatestResumeFileNo" resultType="_int">
+		select count(*)
+		from ATTACHMENT
+		where member_no = #{memberNo}
+	</select>
+
+	<select id="selectApplyCount" resultType="_int">
+		select count(*)
+		from
+		APPLY_STATE
+		where member_no2 = #{memberNo}
+		and RECRUITMENT_NO = #{rmNo}
+	</select>
+
+	<select id="companyName" resultType="string">
+		select ENTERPRISE_NAME
+		from
+		company
+		where ENTERPRISE_NO = #{enterpriseNo}
+	</select>
+	
+	<select id="postWriteList" resultMap="postListResultSet">
+		select 
+		       recruitment_No
+		     , COMPANY_NAME
+		     , POST_TITLE
+		     , HIRE_TYPE
+		     , START_SALARY
+		     , END_SALARY
+		     , REQUIRE_DESCRIPTION
+		     , MAIN_DUTIES
+		     , NICE_TO_HAVE_SKILLS
+		  from job_post jp
+		  join job_write_post on (RECRUITMENT_NO = POST_NO)
+		 where member_no = #{memberNo}
+		   and jp.status = 'Y'
+	</select>
+
+	<select id="postWriteInfo" resultMap="postListResultSet">
+		select
+		RECRUITMENT_NO
+		, COMPANY_NAME
+		, POST_TITLE
+		, HIRE_TYPE
+		, START_SALARY
+		, END_SALARY
+		, REQUIRE_DESCRIPTION
+		, MAIN_DUTIES
+		, NICE_TO_HAVE_SKILLS
+		from job_write_post
+        join job_post j
+        on (post_no = RECRUITMENT_NO)
+		where post_no = #{postNo}
+		and j.STATUS = 'Y'
+	</select>
+
+	<select id="applyList" resultMap="applyResultSet">
+		select
+		RECRUITMENT_NO
+		,
+		MEMBER_NO2
+		, FILE_NO
+		, APPLY_DATE
+		, READ
+		, README
+		, RESULT
+		from APPLY_STATE
+		where RECRUITMENT_NO = #{postNo}
+	</select>
+
+	<select id="memberList" parameterType="java.util.List"
+		resultMap="memberResultSet">
+		SELECT
+		M.MEMBER_NO,
+		M.ENTERPRISE_NO,
+		M.EMAIL,
+		M.MEMBER_NAME,
+		M.PHONE,
+		(
+		SELECT LISTAGG(S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY
+		S.SKILL_NAME)
+		FROM MEMBER_SKILLS MS
+		JOIN SKILL S ON MS.SKILL_NO =
+		S.SKILL_NO
+		WHERE MS.MEMBER_NO = M.MEMBER_NO
+		) AS SKILL,
+		(
+		SELECT
+		MAX(M.CAREER)
+		FROM MEMBER_SKILLS MS
+		WHERE MS.MEMBER_NO = M.MEMBER_NO
+		) AS
+		CAREER
+		FROM MEMBER M
+		WHERE M.MEMBER_NO IN
+		<foreach item="i" collection="list" open="(" separator=","
+			close=")">
+			#{i.memberNo}
+		</foreach>
+	</select>
+
+	<select id="fileName" resultType="string">
+		select FILE_ORIGIN_NAME
+		from
+		attachment
+		where file_no = #{fileNo}
+	</select>
+
+	<select id="selectLatestProfileByMemberNo" resultType="string">
+		SELECT
+		FILE_EDIT_NAME
+		FROM (
+		SELECT FILE_EDIT_NAME
+		FROM ATTACHMENT
+		WHERE
+		MEMBER_NO = #{memberNo}
+		AND file_type = 'P'
+		ORDER BY file_No DESC
+		)
+		WHERE
+		ROWNUM = 1
+	</select>
+
+	<delete id="deleteProfileByMemberNo">
+		DELETE FROM ATTACHMENT
+		WHERE MEMBER_NO = #{memberNo}
+		AND FILE_TYPE = 'P'
+	</delete>
+	<select id="memberResumeInfo" resultMap="applyResultSet">
+		select file_no
+		, README
+		, RECRUITMENT_NO
+		from apply_state
+		where RECRUITMENT_NO = #{career}
+		and member_no2 = #{memberNo}
+	</select>
+	
+	<select id="applyResumeSelect" resultMap="attachmentResultSet">
+		SELECT a.*
+		FROM ATTACHMENT a
+		JOIN APPLY_STATE s ON a.FILE_NO = s.FILE_NO
+		WHERE s.MEMBER_NO2 = #{memberNo}
+		AND s.RECRUITMENT_NO = #{recruitmentNo}
+		AND a.FILE_TYPE = '이력서'
+	</select>
+	
+	<insert id="applyPassed" parameterType="map">
+		update apply_state
+		   <set>
+		   		<if test="passed == 1">
+		   			result = 'Y'
+		   		</if>
+		   		<if test="passed != 1">
+		   			result = 'N'
+		   		</if>
+		   </set>
+		 where RECRUITMENT_NO = #{postNo}
+		   and MEMBER_NO2 = #{applyNum}
+	</insert>
+	
+	<select id="selectApplyResume" parameterType="java.util.ArrayList" resultType="_int">
+		select count(*)
+		  from apply_state
+		 where file_no = #{resumeNum}
+	</select>
+	
+	<select id="selectImg" resultMap="attachmentResultSet">
+		select*
+			from attachment
+			where recruitment_no = #{postNo}
+	
+	</select>
+	
+	
+	
+	
+</mapper>

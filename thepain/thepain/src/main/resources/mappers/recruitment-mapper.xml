@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="recruitmentMapper">
+	<resultMap id="postListResultSet" type="postList">
+		<result column="recruitment_no" property="recruitmentNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="enterprise_no" property="enterpriseNo" />
+		<result column="recruitment_date" property="recruitmentDate" />
+		<result column="count" property="count" />
+		<result column="status" property="status" />
+
+
+		<result column="company_name" property="companyName" />
+		<result column="hire_type" property="hireType" />
+		<result column="start_salary" property="salaryMin" />
+		<result column="end_salary" property="salaryMax" />
+		<result column="require_description" property="description" />
+		<result column="main_duties" property="duty" />
+		<result column="nice_to_have_skills" property="benefits" />
+		<result column="deadLine" property="deadLine" />
+
+		<result column="POST_TITLE" property="title" />
+	</resultMap>
+
+	<resultMap id="postWriteResultMap" type="PostWrite">
+		<result column="post_no" property="postNo" />
+		<result column="member_No" property="memberNo" />
+		<result column="company_name" property="companyName" />
+		<result column="hire_type" property="hireType" />
+		<result column="start_salary" property="salaryMin" />
+		<result column="end_salary" property="salaryMax" />
+		<result column="require_description" property="description" />
+		<result column="main_duties" property="duty" />
+		<result column="nice_to_have_skills" property="benefits" />
+		<result column="status" property="status" />
+		<result column="deadLine" property="deadLine" />
+		<result column="POST_TITLE" property="title" />
+
+	</resultMap>
+
+	<resultMap id="applyResultSet" type="Apply">
+		<result column="RECRUITMENT_NO" property="rmNo" />
+		<result column="MEMBER_NO2" property="memberNo" />
+		<result column="FILE_NO" property="fileNo" />
+		<result column="APPLY_DATE" property="applyDate" />
+		<result column="READ" property="read" />
+		<result column="RESULT" property="result" />
+		
+		
+		
+		<result column="POST_TITLE" property="postTitle" />
+		<result column="COMPANY_NAME" property="companyName" />
+		<result column="HIRE_TYPE" property="hireType" />
+		<result column="START_SALARY" property="salaryMin" />
+		<result column="END_SALARY" property="salaryMax" />
+		<result column="REQUIRE_DESCRIPTION"
+			property="requireDescription" />
+		<result column="MAIN_DUTIES" property="mainDuties" />
+		<result column="NICE_TO_HAVE_SKILLS"
+			property="niceToHaveSkills" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+
+	<resultMap id="attachmentResultSet" type="Attachment">
+		<result column="FILE_NO" property="fileNo" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="FILE_ORIGIN_NAME" property="fileOriginName" />
+		<result column="FILE_EDIT_NAME" property="fileEditName" />
+		<result column="FILE_ROOT" property="fileRoot" />
+		<result column="FILE_TYPE" property="fileType" />
+	</resultMap>
+
+
+
+	<select id="selectPostListCount" resultType="_int">
+		select count(*)
+		from job_post
+		where status ='Y'
+	</select>
+
+	<select id="selectPostList" resultMap="postListResultSet">
+		select
+		recruitment_no
+		, member_no
+		, enterprise_no
+		, recruitment_date
+		, count
+		, status
+		from job_post
+		where status = 'Y'
+		order
+		by recruitment_no desc
+	</select>
+
+	<insert id="insertJob">
+		insert
+		into
+		job_write_post (
+		post_no,
+		company_name,
+		post_title,
+		hire_type,
+		start_salary,
+		end_salary,
+		require_description,
+		main_duties,
+		nice_to_have_skills,
+		deadLine
+		) VALUES (
+		#{postNo},
+		#{companyName},
+		#{title},
+		#{hireType},
+		#{salaryMin},
+		#{salaryMax},
+		#{description},
+		#{duty},
+		#{benefits},
+		#{deadLine}
+		)
+	</insert>
+	<select id="selectJobPostList" resultMap="postListResultSet">
+		select
+		RECRUITMENT_NO,
+		company_name,
+		hire_type,
+		start_salary,
+		end_salary,
+		require_description,
+		main_duties,
+		nice_to_have_skills,
+		post_title,
+		j.status,
+		j.DEADLINE
+		from job_write_post
+		join job_post j
+		on (post_no = RECRUITMENT_NO)
+		where j.status = 'Y'
+		order by post_no DESC
+	</select>
+
+	<select id="selectJobDetail" parameterType="_int"
+		resultMap="postWriteResultMap">
+			SELECT
+			    j.post_no,
+			    r.member_no,
+			    j.company_name,
+			    j.hire_type,
+			    j.start_salary,
+			    j.end_salary,
+			    j.require_description,
+			    j.main_duties,
+			    j.nice_to_have_skills,
+			    j.status,
+			    j.post_title
+			FROM job_write_post j
+			JOIN job_post r ON j.post_no = r.recruitment_no
+			WHERE j.post_no = #{postNo}
+	</select>
+
+
+
+	<delete id="deleteJobPost" parameterType="_int">
+
+		delete from job_write_post
+		where post_no = #{postNo}
+	</delete>
+
+	<update id="updateJobPost" parameterType="postWrite">
+		update job_write_post
+		set
+		company_name = #{companyName},
+		hire_type = #{hireType},
+		start_salary = #{salaryMin},
+		end_salary = #{salaryMax},
+		require_description = #{description},
+		main_duties = #{duty},
+		nice_to_have_skills = #{benefits}
+
+		where post_no = #{postNo}
+	</update>
+
+	<insert id="insertApply" parameterType="Apply">
+		<choose>
+			<when test="fileNo != null">
+				INSERT INTO APPLY_STATE (
+				RECRUITMENT_NO, MEMBER_NO2, FILE_NO, README
+				) VALUES (
+				#{rmNo}, #{memberNo}, #{fileNo}, #{read}
+				)
+			</when>
+			<otherwise>
+				INSERT INTO APPLY_STATE (
+				RECRUITMENT_NO, MEMBER_NO2, FILE_NO, README
+				) VALUES (
+				#{rmNo}, #{memberNo}, NULL, #{read}
+				)
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="selectApply" parameterType="Apply" resultType="_int">
+		SELECT COUNT(*)
+		FROM apply_state
+		WHERE member_no2 = #{memberNo}
+		AND RECRUITMENT_NO = #{rmNo}
+	</select>
+
+	<select id="selectApplyList" resultMap="applyResultSet">
+		SELECT
+		A.RECRUITMENT_NO AS RECRUITMENT_NO,
+		A.MEMBER_NO2 AS MEMBER_NO2,
+		A.FILE_NO AS FILE_NO,
+		A.APPLY_DATE AS APPLY_DATE,
+		A.READ AS READ,
+		A.RESULT AS RESULT,
+		J.COMPANY_NAME AS COMPANY_NAME,
+		J.POST_TITLE AS POST_TITLE,
+		J.HIRE_TYPE AS HIRE_TYPE,
+		J.START_SALARY AS START_SALARY,
+		J.END_SALARY AS END_SALARY,
+		J.REQUIRE_DESCRIPTION AS REQUIRE_DESCRIPTION,
+		J.MAIN_DUTIES AS MAIN_DUTIES,
+		J.NICE_TO_HAVE_SKILLS AS NICE_TO_HAVE_SKILLS,
+		J.STATUS AS status
+		FROM
+		APPLY_STATE A
+		JOIN
+		JOB_WRITE_POST J ON A.RECRUITMENT_NO = J.POST_NO
+		WHERE
+		A.member_no2 = #{memberNo}
+	</select>
+
+
+	<insert id="insertJobPost">
+		insert
+		into
+		job_post (
+		recruitment_no,
+		member_no,
+		enterprise_no,
+		RECRUITMENT_DATE,
+		DEADLINE
+		) VALUES (
+		seq_post_no.nextval,
+		#{memberNo},
+		#{enterpriseNo},
+		sysdate,
+		#{deadLine}
+		)
+	</insert>
+
+	<select id="postNo" resultType="_int">
+		select *
+		from (
+		SELECT RECRUITMENT_NO
+		FROM job_post
+		WHERE member_no = #{memberNo}
+		order by RECRUITMENT_NO desc
+		)
+		where rownum = 1
+
+	</select>
+
+	<select id="selectResume" resultMap="attachmentResultSet">
+		SELECT
+		FILE_NO,
+		MEMBER_NO,
+		FILE_ORIGIN_NAME,
+		FILE_EDIT_NAME,
+		FILE_ROOT,
+		FILE_TYPE
+		FROM ATTACHMENT
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	<select id="selectSenderNo" resultType="_int">
+		select member_No
+		from job_post
+		where recruitment_no = #{recruitmentNo}
+
+	</select>
+
+	<select id="selectAlarmByNo" resultType="_int">
+
+		select MEMBER_NO
+		from job_post
+		where recruitment_no=#{postNo}
+
+	</select>
+
+
+	<select id="alarmPostTitle" resultType="string">
+		select company_name
+		from job_write_post
+		where post_no=#{postNo}
+	</select>
+
+	
+	<update id="expiredJobPost">
+		     <![CDATA[
+			     UPDATE job_post
+				    SET status = 'N'
+				    WHERE deadLine < SYSDATE
+				    AND status = 'Y'
+			 ]]>
+	</update>
+
+	<update id="expiredJobWritePost">
+			<![CDATA[
+		     UPDATE  job_write_post
+			    SET status = 'N'
+			    WHERE deadLine < SYSDATE
+			    AND status = 'Y'
+			 ]]>
+	</update>
+
+	<select id="alarmDeadLine" resultType="PostList"
+		resultMap="postListResultSet">
+		SELECT company_name, member_no
+		FROM job_post
+		JOIN job_write_post ON
+		post_no = recruitment_no
+		WHERE recruitment_no IN
+		<foreach collection="list" item="recruitmentNo" open="("
+			separator="," close=")">
+			#{recruitmentNo}
+		</foreach>
+		AND job_post.deadLine BETWEEN SYSDATE AND SYSDATE + 30
+	</select>
+
+	<select id="selectPostWriter" resultType="_int">
+
+		select recruitment_no
+		from apply_state
+		where member_no2 = #{memberNo}
+
+	</select>
+
+	<select id="selectClosedPosts" resultMap="postListResultSet">
+	<![CDATA[
+		SELECT
+		job_post.recruitment_no,
+		job_post.member_no,
+		job_post.enterprise_no,
+		job_post.recruitment_date,
+		job_post.count,
+		job_post.status,
+		job_post.deadline,
+		job_write_post.company_name,
+		job_write_post.hire_type,
+		job_write_post.start_salary,
+		job_write_post.end_salary,
+		job_write_post.require_description,
+		job_write_post.main_duties,
+		job_write_post.nice_to_have_skills,
+		job_write_post.post_title
+		FROM job_post
+		JOIN job_write_post
+		ON job_write_post.post_no = job_post.recruitment_no
+		WHERE job_post.recruitment_no IN
+		<foreach collection="list" item="recruitmentNo" open="("
+			separator="," close=")">
+			#{recruitmentNo}
+		</foreach>
+		AND job_post.deadline < SYSDATE
+		]]>
+	</select>
+
+
+	<update id="updateReadStatus">
+	    UPDATE apply_state
+	    SET read = 'Y'
+	    WHERE recruitment_no = #{recruitmentNo}
+	    AND member_no2 = #{memberNo}
+	</update>
+
+
+	<select id="selectCompany" resultMap="postListResultSet">
+	    SELECT jw.company_name, jp.member_no
+	    FROM job_post jp
+	    JOIN job_write_post jw ON jp.recruitment_no = jw.post_no
+	    WHERE jp.recruitment_no = #{recruitmentNo}
+	</select>
+	
+	<select id="selectCompanyName" resultType="string">
+		select ENTERPRISE_NAME
+		  from company
+		 where ENTERPRISE_NO = #{companyNo}
+	</select>
+
+</mapper>

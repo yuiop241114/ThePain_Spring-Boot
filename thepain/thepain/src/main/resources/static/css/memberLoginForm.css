@@ -1,0 +1,265 @@
+@charset "UTF-8";
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9fafc;
+        }
+
+		#logohome{
+			text-decoration: none;
+		}
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-content {
+            position: relative;
+        }
+        
+        
+        
+        .brand-name {
+            margin: 20px 0 40px;
+        }
+        
+        .drsp {
+            color: #65c466;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(101, 196, 102, 0.2);
+        }
+        
+        .recruitment {
+            color: #2d4878;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        
+        .login-form {
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .login-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #566a7f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            height: 50px;
+            padding: 10px 15px;
+            border: 2px solid #e4e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        .form-control:focus {
+            border-color: #65c466;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(101, 196, 102, 0.15);
+            background-color: white;
+        }
+        
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: #2d4878;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(45, 72, 120, 0.2);
+        }
+        
+        .login-btn:hover {
+            background-color: #233961;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(45, 72, 120, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(45, 72, 120, 0.3);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #adb5bd;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #e4e7eb;
+        }
+        
+        .divider::before {
+            margin-right: 10px;
+        }
+        
+        .divider::after {
+            margin-left: 10px;
+        }
+        
+        .github-btn {
+            width: 100%;
+            background-color: #24292e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(36, 41, 46, 0.2);
+            text-decoration: none;
+        }
+        
+        .github-btn:hover {
+            background-color: #1b1f23;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(36, 41, 46, 0.3);
+        }
+        
+        .github-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(36, 41, 46, 0.3);
+        }
+        
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        
+        .form-footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .form-footer a {
+            color: #65c466;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        
+        .form-footer a:hover {
+            color: #4ba64c;
+            text-decoration: underline;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(-50%, -50%); }
+            50% { transform: translate(-50%, -48%); }
+            100% { transform: translate(-50%, -50%); }
+        }
+        
+        .star {
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
+        }
+        
+        .drsp-logo {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: contain;
+		  animation: pulse 3s infinite ease-in-out;
+          border-radius: 100%;
+		}

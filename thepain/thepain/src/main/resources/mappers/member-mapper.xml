@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+	<resultMap type="Member" id="memberResultSet">
+		<result column="member_no" property="memberNo" />
+		<result column="enterprise_no" property="enterpriseNo" />
+		<result column="recruitment_no" property="recruitmentNo" />
+		<result column="email" property="email" />
+		<result column="member_pwd" property="memberPwd" />
+		<result column="member_name" property="memberName" />
+		<result column="phone" property="phone" />
+		<result column="token" property="token" />
+		<result column="skill" property="skill" />
+		<result column="career" property="career" />
+		<result column="GIT_USERNAME" property="GitNick" />
+	</resultMap>
+	
+	<resultMap type="Apply" id="MemberApplyResultSet">
+		<result column="RECRUITMENT_NO" property="rmNo"/>
+		<result column="MEMBER_NO2" property="memberNo"/>
+		<result column="FILE_NO" property="fileNo"/>
+		<result column="APPLY_DATE" property="applyDate"/>
+		<result column="READ" property="read"/>
+		<result column="README" property="readMe"/>
+		<result column="RESULT" property="result"/>
+	</resultMap>
+
+	<select id="loginMember" resultMap="memberResultSet">
+		select
+		MEMBER_NO
+		, ENTERPRISE_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		, TOKEN
+		, CAREER
+		from member
+		where status = 'Y'
+		and email = #{email}
+	</select>
+	
+	<select id="checkMember" resultType="_int">
+		select count(*)
+		  from member
+		  where email = #{email}
+	</select>
+
+	<select id="selectGitMember" resultMap="memberResultSet">
+		select
+		MEMBER_NO
+		, ENTERPRISE_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		, TOKEN
+		, CAREER
+		from member
+		where status = 'Y'
+		and TOKEN = #{token}
+	</select>
+
+
+	<select id="selectDupEnterprise" resultType="_int">
+		select count(*) as count
+		from company
+		where STATUS = 'Y'
+		and ENTERPRISE_NAME = #{enterpriseName}
+	</select>
+
+	<insert id="insertEnterprise">
+		insert
+		into company
+		(
+		ENTERPRISE_NO
+		, ENTERPRISE_NAME
+		)
+		values
+		(
+		seq_enterprise_no.nextval
+		, #{enterpriseName}
+		)
+	</insert>
+
+	<select id="selectEnterprise" resultType="_int">
+		select ENTERPRISE_NO
+		from company
+		where STATUS = 'Y'
+		and ENTERPRISE_NAME = #{enterpriseName}
+	</select>
+	<insert id="memberEnroll">
+		insert
+		into member
+		(
+		MEMBER_NO
+		, ENTERPRISE_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		)
+		values
+		(
+		seq_member_no.nextval
+		, #{enterpriseNo}
+		, #{email}
+		, #{memberPwd}
+		, #{memberName}
+		, #{phone}
+		)
+	</insert>
+
+	<insert id="gitMemberEnroll">
+		insert
+		into member
+		(
+		MEMBER_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		, TOKEN
+		, GIT_USERNAME
+		)
+		values
+		(
+		seq_member_no.nextval
+		, #{email}
+		, #{memberPwd}
+		, #{memberName}
+		, #{phone}
+		, #{token}
+		, #{GitNick}
+		)
+	</insert>
+
+	<insert id="userMemberEnroll">
+		insert
+		into member
+		(
+		MEMBER_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		)
+		values
+		(
+		seq_member_no.nextval
+		, #{email}
+		, #{memberPwd}
+		, #{memberName}
+		, #{phone}
+		)
+	</insert>
+	
+	<select id="skillSearch" resultType="map">
+	    SELECT skill_no, skill_name
+		  FROM skill
+		 WHERE LOWER(skill_name) LIKE '%' || LOWER(#{keyword}) || '%'
+		    OR LOWER(skill_name_kr) LIKE '%' || LOWER(#{keyword}) || '%'
+	</select>
+	
+	<select id="selectMember" resultMap="memberResultSet">
+		select
+		MEMBER_NO
+		, ENTERPRISE_NO
+		, EMAIL
+		, MEMBER_PWD
+		, MEMBER_NAME
+		, PHONE
+		, TOKEN
+		, CAREER
+		from member
+		where status = 'Y'
+		and MEMBER_NO = #{memberNo}
+	</select>
+	
+	<update id="updateMember">
+	    UPDATE MEMBER
+	    SET EMAIL = #{email}, PHONE = #{phone}
+	    WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<insert id="insertSkill" parameterType="map">
+	    INSERT ALL
+	    <foreach collection="skillList" item="skillNo">
+	        INTO MEMBER_SKILLS (MEMBER_NO, SKILL_NO)
+	        VALUES (#{memberNo}, #{skillNo})
+	    </foreach>
+	    SELECT * FROM DUAL
+	</insert>
+	
+	<select id="selectSkills" parameterType="int" resultType="map">
+	    SELECT s.SKILL_NO, s.SKILL_NAME
+	    FROM MEMBER_SKILLS ms
+	    JOIN SKILL s ON ms.SKILL_NO = s.SKILL_NO
+	    WHERE ms.MEMBER_NO = #{memberNo}
+	</select>
+	
+	<delete id="deleteMemberSkill" parameterType="map">
+	    DELETE FROM MEMBER_SKILLS
+	    WHERE MEMBER_NO = #{memberNo}
+	      AND SKILL_NO = #{skillNo}
+	</delete>
+	
+	<select id="selectApplyList" resultMap="MemberApplyResultSet">
+		SELECT 
+				RECRUITMENT_NO
+			  , MEMBER_NO2
+			  , FILE_NO
+			  , APPLY_DATE
+			  , READ
+			  , README
+			  , RESULT
+		  FROM APPLY_STATE
+		 WHERE MEMBER_NO2 = #{memberNo}
+	</select>
+
+<select id="resumeMemberInfo" resultMap="memberResultSet">
+SELECT 
+    M.MEMBER_NO,
+    M.ENTERPRISE_NO,
+    M.EMAIL,
+    M.MEMBER_PWD,
+    M.MEMBER_NAME,
+    M.PHONE,
+    M.TOKEN,
+    (
+        SELECT LISTAGG(S.SKILL_NAME, ', ') WITHIN GROUP (ORDER BY S.SKILL_NAME)
+        FROM MEMBER_SKILLS MS
+        JOIN SKILL S ON MS.SKILL_NO = S.SKILL_NO
+        WHERE MS.MEMBER_NO = M.MEMBER_NO
+    ) AS SKILL,
+    (
+        SELECT MAX(M.CAREER)
+        FROM MEMBER_SKILLS MS
+        WHERE MS.MEMBER_NO = M.MEMBER_NO
+    ) AS CAREER,
+    A.RECRUITMENT_NO,
+    M.GIT_USERNAME
+FROM 
+    MEMBER M
+JOIN 
+    APPLY_STATE A ON M.MEMBER_NO = A.MEMBER_NO2
+WHERE 
+    M.MEMBER_NO = #{memberNo}
+    AND A.RECRUITMENT_NO = #{career}  
+</select>
+
+</mapper>
