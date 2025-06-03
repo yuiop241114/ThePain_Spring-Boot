@@ -125,7 +125,8 @@ public class GitTemplate {
 	 * @param repoName
 	 * @return 래파지토리 readme 파일 조회
 	 */
-	public String getReadme(String token, String owner, String repoName) {
+	public Mono<String> getReadme(String token, String owner, String repoName) {
+		/* 동기 방식
 		try {
 			//본인이 아닌 다른 회원의 README 조회
 			String response = "" ;
@@ -160,6 +161,34 @@ public class GitTemplate {
 			}
 			throw e; // 예외가 다른 오류라면 다시 던짐
 		}
+		*/
+
+		//비동기 처리 Mono 사용
+		//본인이 아닌 다른 회원의 README 조회
+		Mono<String> response;
+		if(token.equals("")) {
+			response = WebClient.builder().baseUrl("https://api.github.com")
+					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw").build().get()
+					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
+					.onStatus(status -> status.value() == 404, errorResponse -> {
+						// 404 오류 발생 시 마이페이지로 리디렉션
+						throw new ResponseStatusException(HttpStatus.FOUND, "Redirecting to MyPage",
+								new Exception("Redirecting to /mypage"));
+					}).bodyToMono(String.class);
+		}else {
+			//본인의 토큰을 이용해서 README 조회
+			response = WebClient.builder().baseUrl("https://api.github.com")
+					.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw").build().get()
+					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
+					.onStatus(status -> status.value() == 404, errorResponse -> {
+						// 404 오류 발생 시 마이페이지로 리디렉션
+						throw new ResponseStatusException(HttpStatus.FOUND, "Redirecting to MyPage",
+								new Exception("Redirecting to /mypage"));
+					}).bodyToMono(String.class);
+		}
+
+		return response; // 정상적으로 리드미 파일 내용 반환
 	}
 	
 	/**

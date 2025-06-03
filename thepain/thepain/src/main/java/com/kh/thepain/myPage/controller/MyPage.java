@@ -16,6 +16,7 @@ import com.kh.thepain.myPage.model.service.MypageService;
 import com.kh.thepain.postList.model.vo.Apply;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
+import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -99,44 +102,8 @@ public class MyPage {
 		g.setMethod("GET");
 		g.setToken((String) session.getAttribute("token"));
 		g.setUri(githubInfo.getGitRepos()); // GitService에서 정보 가져오는 서비스 메소드 수정
-		// ObjectMapper objecMapper = new ObjectMapper();
-		// JsonNode repoTotal;
-		// try {
+
 		/*
-		 * repoTotal = objecMapper.readTree(gTemplate.getGitHubCode(g)); //readme 파일 개수에
-		 * 따라서 ArrayList에 담아서 저장 후 전달 ArrayList<String> readme = new
-		 * ArrayList<String>(); ArrayList<String> repoTitle = new ArrayList<String>();
-		 * ArrayList<String> repoLink = new ArrayList<String>(); ArrayList<String>
-		 * repoFilePath = new ArrayList<String>(); ArrayList<String> repoFileUrl = new
-		 * ArrayList<String>(); for(int i=0; i<repoTotal.size(); i++) { String owner =
-		 * repoTotal.get(i).get("owner").get("login").asText(); String repoName =
-		 * repoTotal.get(i).get("name").asText();
-		 * 
-		 * // readme String readmeContent = gTemplate.getReadme(
-		 * (String)session.getAttribute("token"), owner, repoName); String a =
-		 * gService.convertMarkdownToHtml(readmeContent); readme.add(a);
-		 * 
-		 * // 레파지토리 이름 repoTitle.add(repoName);
-		 * 
-		 * // 레파지토리 링크 repoLink.add(repoTotal.get(i).get("html_url").asText());
-		 * 
-		 * // 파일 경로 (API 요청용) String filePath = "README.md"; repoFilePath.add(filePath);
-		 * 
-		 * // GitHub 웹 URL (보기용) String fileUrl = "https://github.com/" + owner + "/" +
-		 * repoName + "/blob/main/" + filePath; repoFileUrl.add(fileUrl); }
-		 * 
-		 * model.addAttribute("readme", readme); model.addAttribute("repoTitle",
-		 * repoTitle); model.addAttribute("repoLink", repoLink);
-		 * model.addAttribute("repoFilePath", repoFilePath);
-		 * model.addAttribute("repoFileUrl", repoFileUrl);
-		 * 
-		 * model.addAttribute("readme",readme); model.addAttribute("repoTitle",
-		 * repoTitle); model.addAttribute("repoLink", repoLink);
-		 * model.addAttribute("repoFilePath", repoFilePath);
-		 */
-		/*
-		 * } catch (JsonProcessingException e) { e.printStackTrace(); }
-		 */
 		gTemplate.getGitHubCode(g).subscribe(repos -> {
 			ObjectMapper objecMapper = new ObjectMapper();
 
@@ -171,6 +138,7 @@ public class MyPage {
 					// GitHub 웹 URL (보기용)
 					String fileUrl = "https://github.com/" + owner + "/" + repoName + "/blob/main/" + filePath;
 					repoFileUrl.add(fileUrl);
+
 				}
 
 				model.addAttribute("readme", readme);
@@ -187,6 +155,74 @@ public class MyPage {
 				e.printStackTrace();
 			}
 		});
+		*/
+
+		//비동기로 받은 repository 정보를 JSON으로 파싱해서 Mono 타입으로 저장
+		Mono<JsonNode> repoTotal = gTemplate.getGitHubCode(g).flatMap(r ->
+		{
+            try {
+                return Mono.just(new ObjectMapper().readTree(r));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+		Mono<Void> readmeResult = repoTotal.flatMap(repoT -> {
+			//JSON 형태로 되어 있는 repository를 각각 접근해서 readme를 조회하기 위해
+			//fromIterable 메소드를 사용해서 JSON 형태의 FLux로 변환
+			//비동기에서 반복문 처럼 사용하기 위해 Flux로 변환
+			return Flux.fromIterable(repoT)
+					//각 repository에 접근하여 readme에 대한 정보 추출
+					.flatMap(repoNode -> {
+						String owner = repoNode.get("owner").get("login").asText();
+						String repoName = repoNode.get("name").asText();
+						String htmlUrl = repoNode.get("html_url").asText(); // 미리 가져와서 사용
+						String filePath = "README.md";
+						String fileUrl = "https://github.com/" + owner + "/" + repoName + "/blob/main/" + filePath;
+
+						// README 내용을 비동기로 가져온 후, 필요한 데이터를 하나의 Mono로 묶어 반환
+						return gTemplate.getReadme((String) session.getAttribute("token"), owner, repoName)
+								.map(readmeContent -> {
+									String htmlReadme = gService.convertMarkdownToHtml(readmeContent);
+									// 이 시점에서 List에 add하면 비동기적 순서 문제 발생
+									// 대신, 필요한 모든 데이터를 포함하는 객체를 반환
+									return Map.of(
+											"readme", htmlReadme,
+											"repoTitle", repoName,
+											"repoLink", htmlUrl,
+											"repoFilePath", filePath,
+											"repoFileUrl", fileUrl
+									);
+								});
+					})
+					.collectList() // 모든 Mono<Map<String, Object>> 결과를 List<Map<String, Object>>로 수집
+					.doOnNext(collectedData -> {
+						// 모든 README 처리가 완료된 후 한 번에 모델에 추가
+						// 이 부분은 모든 비동기 작업이 완료된 후에 실행됩니다.
+						ArrayList<String> readme = new ArrayList<>();
+						ArrayList<String> repoTitle = new ArrayList<>();
+						ArrayList<String> repoLink = new ArrayList<>();
+						ArrayList<String> repoFilePath = new ArrayList<>();
+						ArrayList<String> repoFileUrl = new ArrayList<>();
+
+						for (Map<String, String> data : collectedData) {
+							readme.add((String) data.get("readme"));
+							repoTitle.add((String) data.get("repoTitle"));
+							repoLink.add((String) data.get("repoLink"));
+							repoFilePath.add((String) data.get("repoFilePath"));
+							repoFileUrl.add((String) data.get("repoFileUrl"));
+						}
+
+						model.addAttribute("readme", readme);
+						model.addAttribute("repoTitle", repoTitle);
+						model.addAttribute("repoLink", repoLink);
+						model.addAttribute("repoFilePath", repoFilePath);
+						model.addAttribute("repoFileUrl", repoFileUrl);
+					})
+					.then(); // Mono<Void>로 변환
+		});
+
+
 
 		// 👉 회원 상세정보
 		Member updateMember = mService.selectMember(loginMember);
@@ -305,22 +341,35 @@ public class MyPage {
 		// readme 콘텐츠 조회
 		if (apply.getReadMe() != null) {
 			String projectName = apply.getReadMe().substring(apply.getReadMe().lastIndexOf("/") + 1);
+			/*
 			String readme = gTemplate.getReadme("", // 토큰 없이 진행
 					user.getGitNick(), // 깃허브 이름
 					projectName // 해당 프로젝트 이름
 			);
 			String readmeCon = gService.convertMarkdownToHtml(readme);
 			model.addAttribute("readmeCon", readmeCon);
-		}
+			*/
 
-		// 이력서 인지 리드미 인지 구분 후 전달
-		String resumeName = "";
-		if (apply.getReadMe() == null) {
-			resumeName = myService.fileName(apply.getFileNo());
-		} else {
-			resumeName = apply.getReadMe() + "@README";
+			Mono<String> readme = gTemplate.getReadme("", // 토큰 없이 진행
+					user.getGitNick(), // 깃허브 이름
+					projectName // 해당 프로젝트 이름
+			);
+
+			Mono<Void> result2 = readme.flatMap(r ->{
+				String readmeCon = gService.convertMarkdownToHtml(r);
+				model.addAttribute("readmeCon", readmeCon);
+
+				// 이력서 인지 리드미 인지 구분 후 전달
+				String resumeName = "";
+				if (apply.getReadMe() == null) {
+					resumeName = myService.fileName(apply.getFileNo());
+				} else {
+					resumeName = apply.getReadMe() + "@README";
+				}
+				model.addAttribute("fileName", resumeName);
+				return Mono.empty(); //비동기 처리할게 없을때 이런식으로 완료 표기
+			});
 		}
-		model.addAttribute("fileName", resumeName);
 		return "myPage/applierDetail";
 	}
 
