@@ -31,9 +31,11 @@ public class JjimDao {
         map.put("postNo", postNo);
         return sqlSession.delete("jjimMapper.removeJjim", map);
     }
+    /*
     public ArrayList<PostList> selectJjimList(SqlSessionTemplate sqlSession, int memberNo) {
         return (ArrayList)sqlSession.selectList("jjimMapper.selectJjimList", memberNo);
     }
+     */
     public ArrayList<Integer> selectJjimPostNos(SqlSession sqlSession, int memberNo) {
         return (ArrayList)sqlSession.selectList("jjimMapper.selectJjimPostNos", memberNo);
     }

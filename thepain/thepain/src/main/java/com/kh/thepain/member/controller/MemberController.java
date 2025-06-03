@@ -279,7 +279,7 @@ public class MemberController {
 	 * 
 	 *                     git 로그인 메소드
 	 */
-	@RequestMapping("callback")
+	@RequestMapping("/callback")
 	public String getCode(@RequestParam String code, HttpSession session) throws IOException {
 
 		// code를 통해 token 얻어오기
@@ -411,12 +411,8 @@ public class MemberController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("🔥 서버 오류: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("🔥	 서버 오류: " + e.getMessage());
 		}
 	}
 
-	@GetMapping("/thepain")
-	public String mainPage() {
-		return "index";
-	}
 }

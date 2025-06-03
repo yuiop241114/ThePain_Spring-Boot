@@ -1,6 +1,6 @@
 package com.kh.thepain.jjim.model.service;
 
-import com.kh.thepain.jjim.jjimMapper.JjimMapper;
+import com.kh.thepain.jjim.jjimMapper.jjimMapper;
 import com.kh.thepain.jjim.model.dao.JjimDao;
 import com.kh.thepain.postList.model.vo.PostList;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,7 +16,7 @@ public class JjimService {
     private JjimDao jDao;
 
     @Autowired
-    private JjimMapper jjimMapper;
+    private jjimMapper jMapper;
 
     @Autowired
     private SqlSessionTemplate sqlSession;
@@ -41,7 +41,7 @@ public class JjimService {
 
     //Spring boot 에서 Mybatis 사용 방법
     public ArrayList<PostList> selectJjimList(int memberNo) {
-        return jjimMapper.selectJjimList(memberNo);
+        return jMapper.selectJjimList(memberNo);
     }
 
     public ArrayList<Integer> jjimListByMember(int memberNo) {

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="${ path }/resources/css/jobPostWrite.css">
+<link rel="stylesheet" href="${ path }/css/jobPostWrite.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_green.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 

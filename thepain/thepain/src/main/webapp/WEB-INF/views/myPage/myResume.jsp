@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="${ path }/resources/css/myResume.css">
+<link rel="stylesheet" href="${ path }/css/myResume.css">
 </head>
 <body>
     <jsp:include page="../member/menubar.jsp"/>

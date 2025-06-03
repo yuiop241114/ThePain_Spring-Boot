@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="${ path }/resources/css/applyView.css">
+<link rel="stylesheet" href="${ path }/css/applyView.css">
 </head>
 <body>
 <jsp:include page="../member/menubar.jsp"/>
@@ -33,7 +33,7 @@
 			    		data-company="${apply.companyName}"
 				     	data-result="${apply.result}"
 				     	onclick="goToDetail(${apply.rmNo})">
-				        <img src="${path}/resources/img/company1.png" alt="${apply.companyName}" class="card-image" />
+				        <img src="${path}//img/company1.png" alt="${apply.companyName}" class="card-image" />
 				        <div class="card-content">
 				            <div class="card-title">
 							    ${apply.companyName}[

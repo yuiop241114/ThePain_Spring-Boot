@@ -25,7 +25,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
-<link rel="stylesheet" href="${ path }/resources/css/cvList.css">
+<link rel="stylesheet" href="${ path }/css/cvList.css">
 </head>
 <body>
 	<jsp:include page="../member/menubar.jsp" />

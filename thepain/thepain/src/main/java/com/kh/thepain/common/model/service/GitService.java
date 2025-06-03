@@ -133,10 +133,12 @@ public class GitService {
 	public String getToken(String code, HttpSession session) {
 		String url = "https://github.com/login/oauth/access_token";
 
-		String response = webClient.post().uri(url).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE).body(BodyInserters
-						.fromFormData("client_id", gitId).with("client_secret", gitSecret).with("code", code))
-				.retrieve().bodyToMono(String.class).block();
+		String response = webClient.post().uri(url)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+				.body(BodyInserters.fromFormData("client_id", gitId).with("client_secret", gitSecret).with("code", code))
+				.retrieve()
+				.bodyToMono(String.class).block();
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode;

@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="${ path }/resources/css/jobPostList.css">
+<link rel="stylesheet" href="${ path }/css/jobPostList.css">
 </head>
 <body>
     <jsp:include page="../member/menubar.jsp"/>
@@ -61,7 +61,7 @@
 					         data-salary="${j.salaryMax}"
 						     onclick="goToDetail(${j.recruitmentNo})">
 
-					      <img src="${pageContext.request.contextPath}/resources/img/company1.png" alt="회사 이미지" class="card-image">
+					      <img src="${pageContext.request.contextPath}//img/company1.png" alt="회사 이미지" class="card-image">
 					
 					      <div class="card-content">
 					        <div class="card-title">${j.companyName}[${j.hireType}]</div>

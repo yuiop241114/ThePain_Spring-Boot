@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="path" value="${ pageContext.request.contextPath }"/>
-<link rel="stylesheet" href="${ path }/resources/css/staffMypageResumeList.css">
+<link rel="stylesheet" href="${ path }/css/staffMypageResumeList.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -30,7 +30,7 @@
 				<div class="post-div">
 					<div class="upload-box">
 				      <div class="job-image">
-				        <img src="${path}/resources/img/company1.png" alt="${postWrite.companyName}" class="cyber-img" />
+				        <img src="${path}//img/company1.png" alt="${postWrite.companyName}" class="cyber-img" />
 				      </div>
 				      <div class="job-info">
 				        <div class="job-title">[${postWrite.hireType}] ${fn:substring(postWrite.description, 0, 30)}...</div>

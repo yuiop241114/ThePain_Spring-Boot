@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>채용 공고 수정</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${path}/resources/css/jobPostUpdate.css" />
+<link rel="stylesheet" href="${path}/css/jobPostUpdate.css" />
 </head>
 <body>
 

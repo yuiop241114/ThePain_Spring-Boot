@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="jjimMapper">
+<mapper namespace="com.kh.thepain.jjim.jjimMapper.jjimMapper">
 
 	<resultMap id="postListResultSet" type="postList">
  		<result column="recruitment_no" property="recruitmentNo"/>

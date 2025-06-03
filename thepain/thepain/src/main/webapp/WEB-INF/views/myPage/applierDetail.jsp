@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>DrsP Recruitment</title>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
-<link rel="stylesheet" href="${ path }/resources/css/applierDetail.css">
+<link rel="stylesheet" href="${ path }/css/applierDetail.css">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 

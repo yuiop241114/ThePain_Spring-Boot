@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>${post.companyName}|채용상세</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${path}/resources/css/jobPostDetail.css" />
+<link rel="stylesheet" href="${path}/css/jobPostDetail.css" />
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 
 			<div class="hero-image">
 				<img
-					src="${pageContext.request.contextPath}/resources/img/company1.png"
+					src="${pageContext.request.contextPath}//img/company1.png"
 					alt="회사 이미지" class="card-image">
 			</div>
 

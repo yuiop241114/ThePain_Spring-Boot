@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>${post.companyName}| 채용 상세</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${path}/resources/css/jobPostDetail.css" />
+<link rel="stylesheet" href="${path}/css/jobPostDetail.css" />
 </head>
 <body>
 

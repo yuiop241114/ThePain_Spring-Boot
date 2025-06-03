@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
-<link rel="stylesheet" href="${ path }/resources/css/staffMypage.css">
+<link rel="stylesheet" href="${ path }/css/staffMypage.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 </head>
@@ -87,7 +87,7 @@
 							<c:forEach var="post" items="${postWriteList}">
 								<div class="upload-box" onclick="applierList(${post.recruitmentNo})">
 									<div class="job-image">
-										<img src="${path}/resources/img/company1.png"
+										<img src="${path}//img/company1.png"
 											alt="${post.companyName}" class="cyber-img" />
 									</div>
 									<div class="job-info">

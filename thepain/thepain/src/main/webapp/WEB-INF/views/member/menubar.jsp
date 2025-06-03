@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
-<link rel="stylesheet" href="${ path }/resources/css/sidebar.css">
+<link rel="stylesheet" href="${ path }/css/sidebar.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -18,7 +18,7 @@
 <!-- 사이드바 -->
 	<div class="sidebar">
 		<div class="logo">
-			<a href="goMainPage.me"><img src="resources/img/logo.png"
+			<a href="goMainPage.me"><img src="/img/logo.png"
 				alt="로고"></a>
 		</div>
 
@@ -72,7 +72,7 @@
 						<div class="email">${loginMember.email}</div>
 					</div>
 					<div id="bell">
-						<img src="resources/img/bell.png" alt="알림">
+						<img src="/img/bell.png" alt="알림">
 					</div>
 				</c:otherwise>
 			</c:choose>

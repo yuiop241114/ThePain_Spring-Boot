@@ -40,7 +40,7 @@
 
 		<div class="logo-container">
 			<div class="logo" onclick="location.href='goMainPage.me';" style="background-color: white;">
-				<img src="resources/img/loginFormLogo.png" alt=""
+				<img src="img/loginFormLogo.png" alt=""
 				 class="turtle-logo"	style="height: 100%; width:100%; border-radius: 50%; ">
 			</div>
 			<div class="logo-text">

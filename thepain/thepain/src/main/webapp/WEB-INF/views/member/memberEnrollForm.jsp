@@ -9,7 +9,7 @@
 <title>DRSP RECRUITMENT</title>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 <link rel="stylesheet"
-	href="${ path }/resources/css/memberEnrollForm.css">
+	href="${ path }/css/memberEnrollForm.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>

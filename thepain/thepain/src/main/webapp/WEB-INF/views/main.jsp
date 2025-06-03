@@ -65,7 +65,7 @@
 			<c:forEach var="j" items="${previewList}">
 				<div class="job-card" onclick="goToDetail('${j.recruitmentNo}')">
 					<div class="job-image">
-						<img src="${path}/resources/img/company1.png"
+						<img src="${path}/img/company1.png"
 							alt="${j.companyName}" class="cyber-img" />
 					</div>
 					<div class="job-info">

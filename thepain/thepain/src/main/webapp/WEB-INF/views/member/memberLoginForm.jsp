@@ -19,7 +19,7 @@
 		<a href="goMainPage.me" id="logohome">
 			<div class="logo">
 				<div class="logo-content">
-					<img src="resources/img/loginFormLogo.png" alt="DrsP 로고"
+					<img src="/img/loginFormLogo.png" alt="DrsP 로고"
 						class="drsp-logo" />
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 		<div class="divider">또는</div>
 
 		<a
-			href="https://github.com/login/oauth/authorize?scope=user%20repo%20delete_repo%20project&client_id=Ov23liydoA44JqnHWLOb"
+			href="https://github.com/login/oauth/authorize?scope=user%20repo%20delete_repo%20project&client_id=Ov23liv8JaJ8nBI9KDhb"
 			class="github-btn"> <svg class="github-icon"
 				xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>찜한 채용 목록</title>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${path}/resources/css/jjim.css">
+<link rel="stylesheet" href="${path}/css/jjim.css">
 </head>
 <body>
 <jsp:include page="../member/menubar.jsp"/>
@@ -34,7 +34,7 @@
 						        data-salary="${j.salaryMax}"
 	                        	onclick="goToDetail(${j.recruitmentNo})">
 	                        	
-                            <img src="${path}/resources/img/company1.png" alt="${j.companyName}" class="card-image" />
+                            <img src="${path}//img/company1.png" alt="${j.companyName}" class="card-image" />
                             <div class="card-content">
                                 <div class="card-title">[${j.hireType}] ${fn:substring(j.description, 0, 30)}...</div>
                                 <div class="card-subtitle">연봉: ${j.salaryMin}만 ~ ${j.salaryMax}만</div>
