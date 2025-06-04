@@ -1,5 +1,6 @@
 package com.kh.thepain.postList.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.thepain.common.model.service.GitService;
@@ -21,11 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class Post {
@@ -263,7 +267,7 @@ public class Post {
 	}
 
 	@RequestMapping("applyinsert.at")
-	public String applyinsert(@RequestParam("postNo") int postNo, @RequestParam("memberNo") int memberNo,
+	public Mono<String> applyinsert(@RequestParam("postNo") int postNo, @RequestParam("memberNo") int memberNo,
 			HttpSession session, Model model) {
 
 		// 1. 지원 공고 정보 가져오기
@@ -310,27 +314,44 @@ public class Post {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return "jobPost/applyWrite";
 	*/
 		//readme 조회 코드 비동기 전환 시 코드(Mono 방식)
-		gTemplate.getGitHubCode(g).subscribe(repo -> {
-			ObjectMapper objecMapper = new ObjectMapper();
-			try {
-				JsonNode repoTotal = objecMapper.readTree(repo);
+		Mono<JsonNode> repoT = gTemplate.getGitHubCode(g).flatMap(repo -> {
+            try {
+                return Mono.just(new ObjectMapper().readTree(repo));
+            } catch (JsonProcessingException e) {
+                return Mono.error(new RuntimeException(e));
+            }
+        });
 
+		//Repository는 여러개가 있을 수 있기 때문에 Flux를 사용해서 처리
+		Mono<String> result2 = repoT.flatMap(rm ->{ //가져온 Repository 가공 처리
+			return Flux.fromIterable(rm).flatMap(r -> { //fromIterable() 메소드를 사용해서 각 Repository에 대한 readme 및 정보 조회 처리
+				System.out.println(r);
+				return gTemplate.getReadme(
+						(String) session.getAttribute("token"),
+						r.get("owner").get("login").asText(),
+						r.get("name").asText()
+				).map(readmeContent -> { //마크다운으로 변환한 readme 코드 및 정보를 Map 형태로 저장
+					String readmeCon = gService.convertMarkdownToHtml(readmeContent);
+					return Map.of(
+							"readme", readmeCon,
+							"repoTitle", r.get("name").asText(),
+							"repoLink", r.get("html_url").asText()
+					);
+				});
+			}).collectList().doOnNext(repoInfo -> { //collectList() 메소드를 이용해서 List 컬렉션으로 바꾼후 처리
 				ArrayList<String> readme = new ArrayList<>();
 				ArrayList<String> repoTitle = new ArrayList<>();
 				ArrayList<String> repoLink = new ArrayList<>();
 
-				for (int i = 0; i < repoTotal.size(); i++) {
-					String readmeContent = gTemplate.getReadme((String) session.getAttribute("token"),
-							repoTotal.get(i).get("owner").get("login").asText(), repoTotal.get(i).get("name").asText());
-
-					String a = gService.convertMarkdownToHtml(readmeContent);
-					readme.add(a);
-					repoTitle.add(repoTotal.get(i).get("name").asText());
-					repoLink.add(repoTotal.get(i).get("html_url").asText());
-
-				}
+				for(Map<String, String> info : repoInfo){
+					readme.add(info.get("readme"));
+					repoTitle.add(info.get("repoTitle"));
+					repoLink.add(info.get("repoLink"));
+				};
 
 				model.addAttribute("readme", readme);
 				model.addAttribute("repoTitle", repoTitle);
@@ -340,12 +361,9 @@ public class Post {
 
 				ArrayList<Attachment> list = pService.selectResume(memberNo);
 				model.addAttribute("list", list);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		}).then(Mono.just("jobPost/applyWrite"));
 		});
-		return "jobPost/applyWrite";
+		return result2;
 	}
 
 	/**

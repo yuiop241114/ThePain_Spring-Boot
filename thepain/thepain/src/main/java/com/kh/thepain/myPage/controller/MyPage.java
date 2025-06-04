@@ -62,7 +62,7 @@ public class MyPage {
 	 * @return git 유저 전체 정보 조회
 	 */
 	@RequestMapping("myPage.me")
-	public String myPage(HttpSession session, Model model) {
+	public Mono<String> myPage(HttpSession session, Model model) {
 		// 토큰이 비어 있다면 해당 코드 블록을 실행하지 않음
 		Member loginMember = (Member) session.getAttribute("loginMember"); // 로그인 객체 가져오기
 		if (loginMember.getToken() == null || loginMember.getToken().isEmpty()) {
@@ -94,7 +94,7 @@ public class MyPage {
 
 			}
 
-			return "/myPage/myPage";
+			return Mono.just("/myPage/myPage");
 		}
 		Member githubInfo = gService.getUserInfo((String) session.getAttribute("token"));
 
@@ -167,7 +167,7 @@ public class MyPage {
             }
         });
 
-		Mono<Void> readmeResult = repoTotal.flatMap(repoT -> {
+		Mono<String> readmeResult = repoTotal.flatMap(repoT -> {
 			//JSON 형태로 되어 있는 repository를 각각 접근해서 readme를 조회하기 위해
 			//fromIterable 메소드를 사용해서 JSON 형태의 FLux로 변환
 			//비동기에서 반복문 처럼 사용하기 위해 Flux로 변환
@@ -195,8 +195,8 @@ public class MyPage {
 									);
 								});
 					})
-					.collectList() // 모든 Mono<Map<String, Object>> 결과를 List<Map<String, Object>>로 수집
-					.doOnNext(collectedData -> {
+					.collectList() // 모든 Mono<Map<String, String>> 결과를 List<Map<String, String>>로 처리 후 사용
+					.doOnNext( repoTotal2 -> {
 						// 모든 README 처리가 완료된 후 한 번에 모델에 추가
 						// 이 부분은 모든 비동기 작업이 완료된 후에 실행됩니다.
 						ArrayList<String> readme = new ArrayList<>();
@@ -205,12 +205,12 @@ public class MyPage {
 						ArrayList<String> repoFilePath = new ArrayList<>();
 						ArrayList<String> repoFileUrl = new ArrayList<>();
 
-						for (Map<String, String> data : collectedData) {
-							readme.add((String) data.get("readme"));
-							repoTitle.add((String) data.get("repoTitle"));
-							repoLink.add((String) data.get("repoLink"));
-							repoFilePath.add((String) data.get("repoFilePath"));
-							repoFileUrl.add((String) data.get("repoFileUrl"));
+						for (Map<String, String> repo : repoTotal2) {
+							readme.add((String) repo.get("readme"));
+							repoTitle.add((String) repo.get("repoTitle"));
+							repoLink.add((String) repo.get("repoLink"));
+							repoFilePath.add((String) repo.get("repoFilePath"));
+							repoFileUrl.add((String) repo.get("repoFileUrl"));
 						}
 
 						model.addAttribute("readme", readme);
@@ -219,7 +219,7 @@ public class MyPage {
 						model.addAttribute("repoFilePath", repoFilePath);
 						model.addAttribute("repoFileUrl", repoFileUrl);
 					})
-					.then(); // Mono<Void>로 변환
+					.then(Mono.just("/myPage/myPage")); //마이페이지로 이동
 		});
 
 
@@ -243,7 +243,7 @@ public class MyPage {
 		List<Apply> applyList = mService.selectApplyList(loginMember);
 		model.addAttribute("applyList", applyList);
 
-		return "/myPage/myPage";
+		return readmeResult;
 	}
 
 	/**

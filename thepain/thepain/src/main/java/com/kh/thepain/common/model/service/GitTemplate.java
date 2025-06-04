@@ -171,9 +171,8 @@ public class GitTemplate {
 					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw").build().get()
 					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
 					.onStatus(status -> status.value() == 404, errorResponse -> {
-						// 404 오류 발생 시 마이페이지로 리디렉션
-						throw new ResponseStatusException(HttpStatus.FOUND, "Redirecting to MyPage",
-								new Exception("Redirecting to /mypage"));
+						//404 -> 빈값으로
+						return Mono.empty();
 					}).bodyToMono(String.class);
 		}else {
 			//본인의 토큰을 이용해서 README 조회
@@ -183,8 +182,7 @@ public class GitTemplate {
 					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
 					.onStatus(status -> status.value() == 404, errorResponse -> {
 						// 404 오류 발생 시 마이페이지로 리디렉션
-						throw new ResponseStatusException(HttpStatus.FOUND, "Redirecting to MyPage",
-								new Exception("Redirecting to /mypage"));
+						return Mono.empty();
 					}).bodyToMono(String.class);
 		}
 
