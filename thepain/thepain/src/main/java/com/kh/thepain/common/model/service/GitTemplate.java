@@ -167,23 +167,41 @@ public class GitTemplate {
 		//본인이 아닌 다른 회원의 README 조회
 		Mono<String> response;
 		if(token.equals("")) {
-			response = WebClient.builder().baseUrl("https://api.github.com")
-					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw").build().get()
-					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
-					.onStatus(status -> status.value() == 404, errorResponse -> {
-						//404 -> 빈값으로
-						return Mono.empty();
-					}).bodyToMono(String.class);
+			response = WebClient.builder()
+					.baseUrl("https://api.github.com")
+					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw")
+					.build().get()
+					.uri("/repos/" + owner + "/" + repoName + "/readme")
+					.exchangeToMono(result -> {
+						if (result.statusCode().is2xxSuccessful()) {
+							return result.bodyToMono(String.class);
+						} else if (result.statusCode().value() == 404) {
+							// 원하는 문자열 직접 반환
+							return Mono.just("README 파일이 존재하지 않습니다.");
+						} else {
+							// 그 외 상태 코드면 오류로 처리
+							return result.createException().flatMap(Mono::error);
+						}
+					});
 		}else {
 			//본인의 토큰을 이용해서 README 조회
-			response = WebClient.builder().baseUrl("https://api.github.com")
+			response = WebClient.builder()
+					.baseUrl("https://api.github.com")
 					.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw").build().get()
-					.uri("/repos/" + owner + "/" + repoName + "/readme").retrieve()
-					.onStatus(status -> status.value() == 404, errorResponse -> {
-						// 404 오류 발생 시 마이페이지로 리디렉션
-						return Mono.empty();
-					}).bodyToMono(String.class);
+					.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw")
+					.build().get()
+					.uri("/repos/" + owner + "/" + repoName + "/readme")
+					.exchangeToMono(result -> {
+						if (result.statusCode().is2xxSuccessful()) {
+							return result.bodyToMono(String.class);
+						} else if (result.statusCode().value() == 404) {
+							// 원하는 문자열 직접 반환
+							return Mono.just("README 파일이 존재하지 않습니다.");
+						} else {
+							// 그 외 상태 코드면 오류로 처리
+							return result.createException().flatMap(Mono::error);
+						}
+					});
 		}
 
 		return response; // 정상적으로 리드미 파일 내용 반환

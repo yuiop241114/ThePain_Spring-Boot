@@ -87,7 +87,7 @@
 							<c:forEach var="post" items="${postWriteList}">
 								<div class="upload-box" onclick="applierList(${post.recruitmentNo})">
 									<div class="job-image">
-										<img src="${path}//img/company1.png"
+										<img src="${path}/img/company1.png"
 											alt="${post.companyName}" class="cyber-img" />
 									</div>
 									<div class="job-info">

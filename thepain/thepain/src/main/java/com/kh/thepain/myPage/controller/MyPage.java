@@ -183,7 +183,11 @@ public class MyPage {
 						// README 내용을 비동기로 가져온 후, 필요한 데이터를 하나의 Mono로 묶어 반환
 						return gTemplate.getReadme((String) session.getAttribute("token"), owner, repoName)
 								.map(readmeContent -> {
-									String htmlReadme = gService.convertMarkdownToHtml(readmeContent);
+									String htmlReadme = "";
+									if(readmeContent != null) {
+										htmlReadme = gService.convertMarkdownToHtml(readmeContent);
+									}
+
 									// 이 시점에서 List에 add하면 비동기적 순서 문제 발생
 									// 대신, 필요한 모든 데이터를 포함하는 객체를 반환
 									return Map.of(
@@ -318,7 +322,7 @@ public class MyPage {
 	 * @return 지원자 디테일 정보 페이지 이동 컨트롤러
 	 */
 	@RequestMapping("applierDeatil.my")
-	public String applierDeatil(int mNo, int postNo, Model model) {
+	public Mono<String> applierDeatil(int mNo, int postNo, Model model) {
 		// 회원번호로 회원 정보 조회
 		Member memberInfo = new Member();
 		memberInfo.setMemberNo(mNo);
@@ -355,7 +359,7 @@ public class MyPage {
 					projectName // 해당 프로젝트 이름
 			);
 
-			Mono<Void> result2 = readme.flatMap(r ->{
+			return readme.flatMap(r ->{
 				String readmeCon = gService.convertMarkdownToHtml(r);
 				model.addAttribute("readmeCon", readmeCon);
 
@@ -367,10 +371,11 @@ public class MyPage {
 					resumeName = apply.getReadMe() + "@README";
 				}
 				model.addAttribute("fileName", resumeName);
-				return Mono.empty(); //비동기 처리할게 없을때 이런식으로 완료 표기
+				//return Mono.empty(); //비동기 처리할게 없을때 이런식으로 완료 표기
+				return Mono.just("myPage/applierDetail");
 			});
 		}
-		return "myPage/applierDetail";
+		return Mono.just("myPage/applierDetail");
 	}
 
 	/**

@@ -33,7 +33,7 @@
 			    		data-company="${apply.companyName}"
 				     	data-result="${apply.result}"
 				     	onclick="goToDetail(${apply.rmNo})">
-				        <img src="${path}//img/company1.png" alt="${apply.companyName}" class="card-image" />
+				        <img src="${path}/img/company1.png" alt="${apply.companyName}" class="card-image" />
 				        <div class="card-content">
 				            <div class="card-title">
 							    ${apply.companyName}[
