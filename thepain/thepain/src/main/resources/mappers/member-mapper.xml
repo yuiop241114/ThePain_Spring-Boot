@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="memberMapper">
+<!--<mapper namespace="memberMapper">-->
+<mapper namespace="com.kh.thepain.member.memberMapper.MemberMapper">
 	<resultMap type="Member" id="memberResultSet">
 		<result column="member_no" property="memberNo" />
 		<result column="enterprise_no" property="enterpriseNo" />

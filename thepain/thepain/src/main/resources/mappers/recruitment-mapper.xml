@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="recruitmentMapper">
+<!--<mapper namespace="recruitmentMapper">-->
+<mapper namespace="com.kh.thepain.postList.postListMapper.PostListMapper">
 	<resultMap id="postListResultSet" type="postList">
 		<result column="recruitment_no" property="recruitmentNo" />
 		<result column="member_no" property="memberNo" />

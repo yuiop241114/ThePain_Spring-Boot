@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="mypageMapper">
+<!--<mapper namespace="mypageMapper">-->
+<mapper namespace="com.kh.thepain.myPage.myPageMapper.MyPageMapper">
 	<resultMap type="Attachment" id="attachmentResultSet">
 		<result column="file_no" property="fileNo" />
 		<result column="member_no" property="memberNo" />
@@ -13,7 +14,7 @@
 	
 	<resultMap id="postListResultSet" type="postList">
  		<result column="recruitment_no" property="recruitmentNo"/>
- 		<result column="member_no" property="memberNO"/>
+ 		<result column="member_no" property="memberNo"/>
  		<result column="enterprise_no" property="enterpriseNo"/>
  		<result column="recruitment_date" property="recruitmentDate"/>
  		<result column="count" property="count"/>
