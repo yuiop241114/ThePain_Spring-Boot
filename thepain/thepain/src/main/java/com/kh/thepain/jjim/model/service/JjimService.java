@@ -18,34 +18,27 @@ public class JjimService {
     @Autowired
     private jjimMapper jMapper;
 
-    @Autowired
-    private SqlSessionTemplate sqlSession;
+//    @Autowired
+//    private SqlSessionTemplate sqlSession;
 
     public boolean isAlreadyJjim(int memberNo, int postNo) {
-        return jDao.isAlreadyJjim(sqlSession, memberNo, postNo) > 0;
+        return jDao.isAlreadyJjim(memberNo, postNo) > 0;
     }
 
     public int addJjim(int memberNo, int postNo) {
-        return jDao.addJjim(sqlSession, memberNo, postNo);
+        return jDao.addJjim( memberNo, postNo);
     }
 
     public int removeJjim(int memberNo, int postNo) {
-        return jDao.removeJjim(sqlSession, memberNo, postNo);
+        return jDao.removeJjim(memberNo, postNo);
     }
 
-    /* Spring Legacy Project에서 Mybatis 사용 방법
     public ArrayList<PostList> selectJjimList(int memberNo) {
-        return jDao.selectJjimList(sqlSession, memberNo);
-    }
-    */
-
-    //Spring boot 에서 Mybatis 사용 방법
-    public ArrayList<PostList> selectJjimList(int memberNo) {
-        return jMapper.selectJjimList(memberNo);
+        return jDao.selectJjimList(memberNo);
     }
 
     public ArrayList<Integer> jjimListByMember(int memberNo) {
-        return jDao.selectJjimPostNos(sqlSession, memberNo);
+        return jDao.selectJjimPostNos(memberNo);
     }
 
 
