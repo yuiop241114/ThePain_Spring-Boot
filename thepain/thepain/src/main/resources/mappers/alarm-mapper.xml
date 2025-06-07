@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 
 
-<mapper namespace="alarmMapper">
+<!--<mapper namespace="alarmMapper">-->
+<mapper namespace="com.kh.thepain.webSocket.socketMapper.SocketMapper">
 
 <resultMap id="alarmResult" type="Alarm">
 	<result column="alarm_no" property="alarmNo"/>
