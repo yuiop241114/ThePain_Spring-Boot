@@ -1,17 +1,23 @@
 package com.kh.thepain.apiDevel.controller;
 
+import com.kh.thepain.apiDevel.model.service.APIDevelService;
+import com.kh.thepain.apiDevel.model.vo.JobPost;
 import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-public class APIDevelController {
+public class APIDevelGetController {
 
     @Autowired
     private PostListServiceImpl pService;
+
+    @Autowired
+    private APIDevelService apiService;
 
     /**
      * 채용공고 전체 정보 조회
@@ -23,8 +29,12 @@ public class APIDevelController {
         return pService.selectJobPostList();
     }
 
-    @GetMapping(value="/jobList/{companyName}", method = RequestMethod.GET)
-    public void selectJobPost(@PathVariable String companyName){
-        //회사이름으로 회사번호 조회 후 회사번호로 채용담당자 마이페이지에서 채용공고 조회하는 메소드 찾아서 가쟈옴
+    /**
+     * 회사 이름으로 그 회사 채용 공고 전제 조회
+     * @param companyName
+     */
+    @GetMapping(value="/jobList/{companyName}")
+    public List<JobPost> selectJobPost(@PathVariable String companyName){
+        return apiService.postList(companyName);
     }
 }

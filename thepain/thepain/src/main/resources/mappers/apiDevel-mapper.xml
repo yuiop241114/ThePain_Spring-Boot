@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.kh.thepain.apiDevel.mapper.APIDevelMapper">
+
+    <resultMap id="postListResultMap" type="JobPost">
+        <result property="postNo" column="recruitment_no"/>
+        <result property="postEnrollDate" column="recruitment_date"/>
+        <result property="count" column="count"/>
+        <result property="deadline" column="deadline"/>
+        <result property="companyName" column="company_name"/>
+        <result property="postTitle" column="post_title"/>
+        <result property="hireType" column="hire_type"/>
+        <result property="startSalary" column="start_salary"/>
+        <result property="endSalary" column="end_salary"/>
+        <result property="requireDescription" column="require_description"/>
+        <result property="mainDuties" column="main_duties"/>
+        <result property="requiredSkills" column="nice_to_have_skills"/>
+    </resultMap>
+
+    <select id="selectCompanyNo" resultType="_int">
+        select enterprise_no
+        from company
+        where enterprise_name = #{companyName}
+    </select>
+
+    <select id="postList" resultMap="postListResultMap">
+        select
+              jp.RECRUITMENT_NO
+            , jp.RECRUITMENT_DATE
+            , jp.COUNT
+            , jp.DEADLINE
+            , jw.COMPANY_NAME
+            , jw.POST_TITLE
+            , jw.HIRE_TYPE
+            , jw.START_SALARY
+            , jw.END_SALARY
+            , jw.REQUIRE_DESCRIPTION
+            , jw.MAIN_DUTIES
+            , jw.NICE_TO_HAVE_SKILLS
+            from job_post jp
+            join job_write_post jw
+            on (jp.RECRUITMENT_NO = jw.post_no)
+            where jp.status = 'Y'
+        and jw.company_name = #{companyName}
+    </select>
+</mapper>
