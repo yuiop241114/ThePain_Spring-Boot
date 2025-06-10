@@ -37,4 +37,7 @@ public class APIDevelGetController {
     public List<JobPost> selectJobPost(@PathVariable String companyName){
         return apiService.postList(companyName);
     }
+
+    public void selectMember(){
+    }
 }
