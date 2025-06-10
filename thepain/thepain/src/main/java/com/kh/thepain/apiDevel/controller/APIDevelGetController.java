@@ -38,6 +38,7 @@ public class APIDevelGetController {
         return apiService.postList(companyName);
     }
 
+    @GetMapping(value="/member/{id}")
     public void selectMember(){
     }
 }
