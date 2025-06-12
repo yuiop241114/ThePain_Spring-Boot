@@ -2,6 +2,8 @@ package com.kh.thepain.apiDevel.controller;
 
 import com.kh.thepain.apiDevel.model.service.APIDevelService;
 import com.kh.thepain.apiDevel.model.vo.JobPost;
+import com.kh.thepain.member.model.service.MemberService;
+import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class APIDevelGetController {
 
     @Autowired
     private PostListServiceImpl pService;
+
+    @Autowired
+    private MemberService mService;
 
     @Autowired
     private APIDevelService apiService;
@@ -38,7 +43,16 @@ public class APIDevelGetController {
         return apiService.postList(companyName);
     }
 
+    /**
+     * 회원 아이디로 회원 정보 조회 
+     * 반환 데이터 바꿔줘야 됨
+     * @param memberId
+     * @return
+     */
     @GetMapping(value="/member/{id}")
-    public void selectMember(){
+    public Member selectMember(@PathVariable String memberId){
+        Member m = new Member();
+        m.setEmail(memberId);
+        return mService.loginController(m);
     }
 }
