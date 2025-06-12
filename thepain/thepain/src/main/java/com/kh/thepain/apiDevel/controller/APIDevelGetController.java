@@ -1,6 +1,7 @@
 package com.kh.thepain.apiDevel.controller;
 
 import com.kh.thepain.apiDevel.model.service.APIDevelService;
+import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import com.kh.thepain.apiDevel.model.vo.JobPost;
 import com.kh.thepain.member.model.service.MemberService;
 import com.kh.thepain.member.model.vo.Member;
@@ -49,10 +50,13 @@ public class APIDevelGetController {
      * @param memberId
      * @return
      */
-    @GetMapping(value="/member/{id}")
-    public Member selectMember(@PathVariable String memberId){
-        Member m = new Member();
-        m.setEmail(memberId);
-        return mService.loginController(m);
+    @GetMapping(value="/member/{memberId}")
+    public ApiMember selectMember(@PathVariable String memberId){
+        //회원 정보 조회
+        //1. 회원 기본 정보
+        //2. 회원 기술 스택 리스트
+        ApiMember m = apiService.selectApiMember(memberId);
+        m.setSkills( apiService.selectSkills( m.getMemberNo()) );
+        return m;
     }
 }

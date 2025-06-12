@@ -17,6 +17,20 @@
         <result property="requiredSkills" column="nice_to_have_skills"/>
     </resultMap>
 
+    <resultMap id="apiMemberResultMap" type="ApiMember">
+        <result property="memberNo" column="member_no"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="email" column="email"/>
+        <result property="gitUserName" column="git_username"/>
+        <result property="memberName" column="member_name"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <resultMap id="skillsResultMap" type="Skills">
+        <result property="skillName" column="skill_name"/>
+        <result property="skillNameKr" column="skill_name_kr"/>
+    </resultMap>
+
     <select id="selectCompanyNo" resultType="_int">
         select enterprise_no
         from company
@@ -42,5 +56,27 @@
             on (jp.RECRUITMENT_NO = jw.post_no)
             where jp.status = 'Y'
         and jw.company_name = #{companyName}
+    </select>
+
+    <select id="selectApiMember" resultMap="apiMemberResultMap">
+        select
+              m.member_no
+            , c.enterprise_name
+            , m.email
+            , m.git_username
+            , m.member_name
+            , m.phone
+            from member m
+            left join company c using (enterprise_no)
+            where m.email = #{memberId}
+    </select>
+
+    <select id="selectSkills" resultMap="skillsResultMap">
+        select
+          s.skill_name
+        , s.skill_name_kr
+        from skill s
+        join member_skills ms on(s.skill_no = ms.skill_no)
+        where ms.member_no = #{memberNo}
     </select>
 </mapper>
