@@ -133,12 +133,11 @@ public class Post {
 	 * @param pw
 	 * @param session
 	 * @param model
-	 * @param rttr
 	 * @return
 	 */
 	@RequestMapping("insertJob.pl")
-	public String insertJob(MultipartFile companyLogo, PostWrite pw, HttpSession session, Model model,
-			RedirectAttributes rttr) {
+	public String insertJob(MultipartFile companyLogo, PostWrite pw, HttpSession session, Model model/*,
+			RedirectAttributes rttr*/) {
 
 		Attachment fileVo = new Attachment();
 		if (!companyLogo.getOriginalFilename().equals("")) {
