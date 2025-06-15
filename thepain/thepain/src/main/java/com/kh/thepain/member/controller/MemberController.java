@@ -234,19 +234,7 @@ public class MemberController {
 	}
 
 	/**
-	 * @param email
-	 * @return 인증 메일 발송 컨트롤러 ajax이라서 @ResponseBody 어노테이션은 필수
-	 */
-	@ResponseBody
-	@RequestMapping(value = "emailCheck.me", produces = "text/html; charset=utf-8")
-	public String sendVerificationCode(String email) {
-		// 인증 코드 생성
-		SecureRandom random = new SecureRandom();
-		int code = 100000 + random.nextInt(900000); // 6자리 숫자 생성
-
-		// 인증 코드 저장
-		emailService.saveCode(email, code + "");
-
+	 * @param emailx`
 		// 인증 코드 이메일 발송
 		emailService.sendCodeEmail(email, code + "");
 

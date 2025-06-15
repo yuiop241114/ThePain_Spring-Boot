@@ -19,8 +19,8 @@ public class APIDevelPostController {
     @Autowired
     private Post pController;
 
-    @PostMapping(value = "/insertPost")
-    public void insertPost(@RequestBody PostWrite postWrite) {
+    @PostMapping(value="/login")
+    public void login(){
 
     }
 
