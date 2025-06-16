@@ -40,7 +40,7 @@ public class Configuration {
 					.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 					//요청별로 인가(접근권한) 규칙 설정
 					.authorizeHttpRequests(auth -> auth
-							.antMatchers("/api/**").permitAll() //해당 URL은 인증 없이 접근 가능
+							.antMatchers("/getApi/**", "/postApi/**", "**").permitAll() //해당 URL은 인증 없이 접근 가능
 							.anyRequest().authenticated() //바로 위에서 설정한 URL 이외 다른 경로는 인증이 필요
 					)
 					//커스텀 JWT 필터(jwtFilter)를 UsernamePasswordAuthenticationFilter 이전에 등록하여모든 요청에 대해 JWT 인증을 먼저 처리

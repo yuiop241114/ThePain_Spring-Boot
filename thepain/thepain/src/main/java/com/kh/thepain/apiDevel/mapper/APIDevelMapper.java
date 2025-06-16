@@ -37,5 +37,5 @@ public interface APIDevelMapper {
      * @param memberId
      * @return
      */
-    ApiLogin selectApiLogin(String memberId);
+    ApiLogin selectApiLogin(String username);
 }

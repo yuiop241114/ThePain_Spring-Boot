@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/postApi")
 public class APIDevelPostController {
 
     @Autowired
@@ -26,7 +26,12 @@ public class APIDevelPostController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping(value="/login_token")
+    /**
+     * 로그인시 토큰 발생 메소드
+     * @param apiLogin
+     * @return
+     */
+    @PostMapping(value="/loginToken")
     public String loginToken(@RequestBody ApiLogin apiLogin) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(apiLogin.getEmail(), apiLogin.getPassword())

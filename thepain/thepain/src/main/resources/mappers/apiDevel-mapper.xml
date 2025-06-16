@@ -85,11 +85,11 @@
         where ms.member_no = #{memberNo}
     </select>
 
-    <select id="selectApiLogin" resultMap="">
+    <select id="selectApiLogin" resultMap="apiLoginResultMap">
         select
         email
         , member_pwd
         from member
-        where email = #{memberId}
+        where email = #{username}
     </select>
 </mapper>
