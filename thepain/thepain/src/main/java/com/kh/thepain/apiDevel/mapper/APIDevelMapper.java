@@ -1,5 +1,6 @@
 package com.kh.thepain.apiDevel.mapper;
 
+import com.kh.thepain.apiDevel.model.vo.ApiLogin;
 import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import com.kh.thepain.apiDevel.model.vo.JobPost;
 import com.kh.thepain.apiDevel.model.vo.Skills;
@@ -30,4 +31,11 @@ public interface APIDevelMapper {
      * @return
      */
     List<Skills> selectSkills(int memberNo);
+
+    /**
+     * 로그인 후 토큰 발생 시 인증에 필요한 이메일 및 비밓번호 조회
+     * @param memberId
+     * @return
+     */
+    ApiLogin selectApiLogin(String memberId);
 }

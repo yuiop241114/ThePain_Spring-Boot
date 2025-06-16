@@ -1,6 +1,7 @@
 package com.kh.thepain.apiDevel.model.service;
 
 import com.kh.thepain.apiDevel.model.dao.APIDevelDao;
+import com.kh.thepain.apiDevel.model.vo.ApiLogin;
 import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import com.kh.thepain.apiDevel.model.vo.JobPost;
 import com.kh.thepain.apiDevel.model.vo.Skills;
@@ -52,8 +53,8 @@ public class APIDevelService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ApiMember apiMember = apiDao.selectApiMember(username);
+        ApiLogin apiMember = apiDao.selectApiLogin(username);
         if(apiMember == null) throw new UsernameNotFoundException("해당 하는 사용자는 없음");
-        return new org.springframework.security.core.userdetails.User(apiMember.getEmail(), "", Collections.emptyList());
+        return new org.springframework.security.core.userdetails.User(apiMember.getEmail(), apiMember.getPassword(), Collections.emptyList());
     }
 }

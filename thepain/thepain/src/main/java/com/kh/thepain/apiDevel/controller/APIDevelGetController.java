@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class APIDevelGetController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class APIDevelGetController {
      * 채용공고 전체 정보 조회
      * @return
      */
-    @RequestMapping(value="/allJobList", method = RequestMethod.GET)
+    @GetMapping(value="/allJobList")
     //@ResponseBody -> @RestController가 있으면 셍략가능
     public ArrayList<PostList> selectAllJobPostList(){
         return pService.selectJobPostList();

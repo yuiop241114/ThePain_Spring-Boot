@@ -3,6 +3,7 @@ package com.kh.thepain.apiDevel.jwtConfig;
 import com.kh.thepain.apiDevel.model.service.APIDevelService;
 import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +19,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilter {
 
+    @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
     private APIDevelService apiService;
 
     @Override

@@ -31,6 +31,11 @@
         <result property="skillNameKr" column="skill_name_kr"/>
     </resultMap>
 
+    <resultMap id="apiLoginResultMap" type="ApiLogin">
+        <result property="email" column=""/>
+        <result property="password" column=""/>
+    </resultMap>
+
     <select id="selectCompanyNo" resultType="_int">
         select enterprise_no
         from company
@@ -78,5 +83,13 @@
         from skill s
         join member_skills ms on(s.skill_no = ms.skill_no)
         where ms.member_no = #{memberNo}
+    </select>
+
+    <select id="selectApiLogin" resultMap="">
+        select
+        email
+        , member_pwd
+        from member
+        where email = #{memberId}
     </select>
 </mapper>
