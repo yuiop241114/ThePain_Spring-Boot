@@ -40,8 +40,10 @@ public class Configuration {
 					.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 					//요청별로 인가(접근권한) 규칙 설정
 					.authorizeHttpRequests(auth -> auth
-							.antMatchers("/getApi/**", "/postApi/**", "**").permitAll() //해당 URL은 인증 없이 접근 가능
-							.anyRequest().authenticated() //바로 위에서 설정한 URL 이외 다른 경로는 인증이 필요
+							//.antMatchers("/postApi/**", "/**").permitAll() //해당 URL은 인증 없이 접근 가능
+							//.anyRequest().authenticated() //바로 위에서 설정한 URL 이외 다른 경로는 인증이 필요
+							.antMatchers("/getApi/**").authenticated() //해당 URL은 인증하여 접근
+							.anyRequest().permitAll() // 위에서 지정한 URL 이외 다른 경로들은 인증없이 접근 가능
 					)
 					//커스텀 JWT 필터(jwtFilter)를 UsernamePasswordAuthenticationFilter 이전에 등록하여모든 요청에 대해 JWT 인증을 먼저 처리
 					.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,7 +54,7 @@ public class Configuration {
 		public AuthenticationManager authManager(HttpSecurity http) throws Exception {
 			//Spring Security의 인증 빌더(AuthenticationManagerBuilder)를 가져옴
 			return http.getSharedObject(AuthenticationManagerBuilder.class)
-					//사용자 정보 조회는 apiService를 사용하겠다고 명시(UseDetailsService를 상속한 클래스여야함)
+					//사용자 정보 조회는 apiService를 사용하겠다고 명시(UseDetailsService를 상속한 클래스여야함)
 					.userDetailsService(apiService)
 					//비밀번호 암호화
 					.passwordEncoder(bCryptPassword())

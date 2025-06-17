@@ -1,5 +1,6 @@
 package com.kh.thepain.apiDevel.controller;
 
+import com.kh.thepain.apiDevel.jwtConfig.JwtFilter;
 import com.kh.thepain.apiDevel.model.service.APIDevelService;
 import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import com.kh.thepain.apiDevel.model.vo.JobPost;
@@ -25,6 +26,9 @@ public class APIDevelGetController {
 
     @Autowired
     private APIDevelService apiService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
     /**
      * 채용공고 전체 정보 조회

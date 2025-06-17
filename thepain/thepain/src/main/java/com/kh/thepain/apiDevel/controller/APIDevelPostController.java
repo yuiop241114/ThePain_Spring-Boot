@@ -33,9 +33,11 @@ public class APIDevelPostController {
      */
     @PostMapping(value="/loginToken")
     public String loginToken(@RequestBody ApiLogin apiLogin) {
+        //입력 받은 아이디 및 비밀번호 인증
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(apiLogin.getEmail(), apiLogin.getPassword())
         );
+        //아이디로 토큰 발행 및 반환
         return jwtUtil.generateToken(authentication.getName());
     }
 
