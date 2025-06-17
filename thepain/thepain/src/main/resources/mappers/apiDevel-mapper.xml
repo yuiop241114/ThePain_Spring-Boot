@@ -32,8 +32,8 @@
     </resultMap>
 
     <resultMap id="apiLoginResultMap" type="ApiLogin">
-        <result property="email" column=""/>
-        <result property="password" column=""/>
+        <result property="email" column="email"/>
+        <result property="password" column="member_pwd"/>
     </resultMap>
 
     <select id="selectCompanyNo" resultType="_int">

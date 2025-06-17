@@ -34,7 +34,6 @@ public interface APIDevelMapper {
 
     /**
      * 로그인 후 토큰 발생 시 인증에 필요한 이메일 및 비밓번호 조회
-     * @param memberId
      * @return
      */
     ApiLogin selectApiLogin(String username);
