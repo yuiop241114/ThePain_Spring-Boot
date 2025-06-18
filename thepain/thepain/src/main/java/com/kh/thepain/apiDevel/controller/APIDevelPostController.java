@@ -41,4 +41,10 @@ public class APIDevelPostController {
         return jwtUtil.generateToken(authentication.getName());
     }
 
+    @PostMapping(value="/insertPost")
+    public void insertPost(){
+        //이미지 및 채용공고 정보 받아서 등록
+        //채용담당자인지 확인
+    }
+
 }
