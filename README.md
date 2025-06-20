@@ -1,6 +1,21 @@
 # Project Thepain 고도화
 
+
 # 📘 프로젝트 소개
 기존에 개발자를 위한 채용공고 사이트 프로젝트 Thepain은 Spring Legacy Project를 사용하여 프로젝트를 진행하였습니다.
 그래서 코드를 작성하여 유지 보수나 설정을 하는 과정이 복잡하고 힘들든 단점이 존재하였습니다. 그래서 Spring Boot로 프레임워크 마이크레이션을 하였고
 이 후 해당 작업을 기반으로 채용공고 사이트 API 개발까지 진행하였습니다
+
+
+# ⏱ 개발기간
+25.06.08 ~ 25.06.19
+
+# ⚙ 개발 환경
+- OS : Windows 10/11  
+- 개발 도구 : STS, VS Code, SQL Developer  
+- 서버 : Apache Tomcat 9.0  
+- DBMS : Oracle  
+- Front-end : HTML5 / CSS3 / JavaScript / jQuery  
+- Back-end : Java 11 / Spring Framework / MyBatis  
+- ERD : ERD CLOUD  
+- 협업 도구 : GitHub / Figma  / Gamma  /  Cloude  / Visily
