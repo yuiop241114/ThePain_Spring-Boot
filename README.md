@@ -23,7 +23,9 @@
 ## 1. 프레임워크 마이그레이션
 Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습니다.
 
-**설정 파일 간소화**
+**설정 파일 간소화 및 정적 리소스 위치 수정** <br>
 기존에 Maven 프로젝트에서 Gradle-Groovy로 바뀌면서 설정 파일을 build.gradle, application.properties 파일에서 설정 및 라이브러리 등을 관리하면서 더 빠르게 프로젝트를 시작할 수 있었습니다. 
+
+**MyBatis 소스코드 리팩토링**
 
 ## 2. RESTful API 설계 및 개발**
