@@ -11,7 +11,7 @@
 25.06.08 ~ 25.06.19
 
 # ⚙ 개발 환경
-- OS : Windows 10/11  
+- OS : Windows 11  
 - 개발 도구 : Intellij, SQL Developer  
 - 서버 : Apache Tomcat 9.0  
 - DBMS : Oracle  
@@ -20,4 +20,9 @@
 - 협업 도구 : GitHub, Git
 
 # 고도화 작업
-** 프레임워크 마이그레이션 **
+**1. 프레임워크 마이그레이션**
+Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습니다.
+
+***설정 파일 간소화***
+
+**2. RESTful API 설계 및 개발**
