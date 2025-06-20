@@ -12,10 +12,12 @@
 
 # ⚙ 개발 환경
 - OS : Windows 10/11  
-- 개발 도구 : STS, VS Code, SQL Developer  
+- 개발 도구 : Intellij, SQL Developer  
 - 서버 : Apache Tomcat 9.0  
 - DBMS : Oracle  
 - Front-end : HTML5 / CSS3 / JavaScript / jQuery  
-- Back-end : Java 11 / Spring Framework / MyBatis  
-- ERD : ERD CLOUD  
-- 협업 도구 : GitHub / Figma  / Gamma  /  Cloude  / Visily
+- Back-end : Java 11 / Spring Framework(Spring Boot) / MyBatis  
+- 협업 도구 : GitHub, Git
+
+# 고도화 작업
+** 프레임워크 마이그레이션 **
