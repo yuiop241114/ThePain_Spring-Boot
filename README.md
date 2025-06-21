@@ -53,7 +53,7 @@ Spring Legacy Projecy에서는 SqlSession 객체를 사용하여 직접 호출 �
 **🔐 JWT를 사용하여 Token 발행 및 검증** <br>
 API 설계 과정에서 만약 API를 개발한다고 하더라도 URL만 알고 있다면 누구나 접근할 수 있는 보안 상 허점이 존재하여 
 JWT를 사용하여 고도화 하는 프로젝트의 회원인 경우에만 해당 API를 사용 가능하게 설계를 진행하였습니다.
-![JWT 이미지](https://raw.githubusercontent.com/yuiop241114/ThePain_Spring-Boot/main/src/main/resources/static/img/JWT.png)
+![JWT 이미지](https://raw.githubusercontent.com/yuiop241114/ThePain_Spring-Boot/main/src/main/resources/static/img/bell.png)
 
 
 **🔌 RESTful 방식으로 API 개발** <br>
