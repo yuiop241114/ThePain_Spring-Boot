@@ -40,9 +40,14 @@ Spring Boot에서는 이미지 파일이나 CSS 파일 같은 정적 리소스�
 | Spring Boot(Gradle-Groovy) | `resources/static/정적리소스`     |
 
 
-<br/>
-**MyBatis 소스코드 리팩토링** <br>
+
+**♻️ MyBatis 소스코드 리팩토링** <br>
 Spring Legacy Projecy에서는 SqlSession 객체를 사용하여 직접 호출 했지만 Spring Boot에서는 Mapper 클래스를 생성하여 매핑하는 방식으로 코드를 리팩토링 하였습니다
+| 프로젝트 형태                     | 요청 처리 흐름                 | 
+|--------------------------|---------------------|
+| Spring Legacy Project(Maven)        | `Controller -> Service -> Dao`        | 
+| Spring Boot(Gradle-Groovy) | `Controller -> Service -> Mapper`     |
+
 
 ## 2. RESTful API 설계 및 개발**
 **JWT를 사용하여 Token 발행 및 검증** <br>
