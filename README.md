@@ -24,7 +24,13 @@
 Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습니다.
 
 **설정 파일 간소화 및 정적 리소스 위치 수정** <br>
-기존에 Maven 프로젝트에서 Gradle-Groovy로 바뀌면서 설정 파일을 build.gradle, application.properties 파일에서 설정 및 라이브러리 등을 관리하면서 더 빠르게 프로젝트를 시작할 수 있었습니다. 
+기존에 Maven 프로젝트에서 Gradle-Groovy로 바뀌면서 설정 파일을 build.gradle, application.properties 파일에서 설정 및 라이브러리 등을 관리하면서 더 빠르게 프로젝트를 시작할 수 있었습니다.
+| 프로젝트 형태                     | 설정 파일                 | 
+|--------------------------|---------------------|
+| Spring Legacy Project(Maven)        | pom.xml, .springBeans, root-context.xml 등...        | 
+| Spring Boot(Gradle-Groovy) | application.properties, build.gradle     |
+
+         
 Spring Boot에서는 이미지 파일이나 CSS 파일 같은 정적 리소스들은 static 파일에 위치해야 읽기 때문에 위치도 변경하였습니다
 
 **MyBatis 소스코드 리팩토링** <br>
@@ -53,4 +59,4 @@ API를 개발을 끝마치더라도 코드를 유지 보수 하거나 API를 사
 
 | 설명                     | URL                | Token 필요 여부 |
 |--------------------------|--------------------|------------------|
-| 아이디/비밀번호로 토큰 발행 | `/loginToken`      | ❌               |
+| 아이디/비밀번호로 토큰 발행 | `/loginToken`      | X               |
