@@ -92,4 +92,5 @@
         from member
         where email = #{username}
     </select>
+
 </mapper>

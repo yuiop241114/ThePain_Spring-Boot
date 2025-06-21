@@ -1,7 +1,9 @@
 package com.kh.thepain.apiDevel.controller;
 
 import com.kh.thepain.apiDevel.jwtConfig.JwtUtil;
+import com.kh.thepain.apiDevel.model.service.APIDevelService;
 import com.kh.thepain.apiDevel.model.vo.ApiLogin;
+import com.kh.thepain.apiDevel.model.vo.ApiMember;
 import com.kh.thepain.postList.controller.Post;
 import com.kh.thepain.postList.model.vo.PostWrite;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class APIDevelPostController {
     private AuthenticationManager authManager;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private APIDevelService apiService;
 
     /**
      * 로그인시 토큰 발생 메소드
@@ -42,9 +46,18 @@ public class APIDevelPostController {
     }
 
     @PostMapping(value="/insertPost")
-    public void insertPost(){
+    public void insertPost(@RequestHeader("Authorization") String bearerToken){
         //이미지 및 채용공고 정보 받아서 등록
+        String token = bearerToken.substring(7); //헤더에서 Token 추출
+        String email = jwtUtil.getUsernameFromToken(token); //Token에 있는 아이디 추출
+
         //채용담당자인지 확인
+        ApiMember memberInfo = apiService.selectApiMember(email);
+        if(!memberInfo.getGitUserName().equals("")){
+            System.out.println("깃허브 회원");
+        }else{
+            System.out.println("채용담당자");
+        }
     }
 
 }
