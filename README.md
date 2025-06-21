@@ -27,17 +27,23 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 기존에 Maven 프로젝트에서 Gradle-Groovy로 바뀌면서 설정 파일을 build.gradle, application.properties 파일에서 설정 및 라이브러리 등을 관리하면서 더 빠르게 프로젝트를 시작할 수 있었습니다. 
 Spring Boot에서는 이미지 파일이나 CSS 파일 같은 정적 리소스들은 static 파일에 위치해야 읽기 때문에 위치도 변경하였습니다
 
-**MyBatis 소스코드 리팩토링**
+**MyBatis 소스코드 리팩토링** <br>
 Spring Legacy Projecy에서는 SqlSession 객체를 사용하여 직접 호출 했지만 Spring Boot에서는 Mapper 클래스를 생성하여 매핑하는 방식으로 코드를 리팩토링 하였습니다
 
 ## 2. RESTful API 설계 및 개발**
-**JWT를 사용하여 Token 발행 및 검증**
+**JWT를 사용하여 Token 발행 및 검증** <br>
 API 설계 과정에서 만약 API를 개발한다고 하더라도 URL만 알고 있다면 누구나 접근할 수 있는 보안 상 허점이 존재하여 
 JWT를 사용하여 고도화 하는 프로젝트의 회원인 경우에만 해당 API를 사용 가능하게 설계를 진행하였습니다.
 
-**RESTful 방식으로 API 개발**
+**RESTful 방식으로 API 개발** <br>
 API를 개발을 끝마치더라도 코드를 유지 보수 하거나 API를 사용하는 개발자가 코드를 이해하기 쉽게 하기 위해 RESTful 방식으로 개발을 진행하였습니다
 
 **API Method**
 - GET
+***채용공고 전체 조회***
+***회사 이름으로 채용공고 조회***
+***회원 아이디로 회원 정보 조회***
+
+  
 - POST
+***아이디/비밀번호로 토큰 발행***
