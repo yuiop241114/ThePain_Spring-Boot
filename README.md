@@ -40,9 +40,7 @@ Spring Boot에서는 이미지 파일이나 CSS 파일 같은 정적 리소스�
 | Spring Boot(Gradle-Groovy) | `resources/static/정적리소스`     |
 
 
-
-
-  
+<br/>
 **MyBatis 소스코드 리팩토링** <br>
 Spring Legacy Projecy에서는 SqlSession 객체를 사용하여 직접 호출 했지만 Spring Boot에서는 Mapper 클래스를 생성하여 매핑하는 방식으로 코드를 리팩토링 하였습니다
 
