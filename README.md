@@ -31,6 +31,7 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 | Spring Legacy Project(Maven)        | pom.xml, .springBeans, root-context.xml 등...        | 
 | Spring Boot(Gradle-Groovy) | application.properties, build.gradle     |
 
+
          
 Spring Boot에서는 이미지 파일이나 CSS 파일 같은 정적 리소스들은 static 파일에 위치해야 읽기 때문에 위치도 변경하였습니다
 | 프로젝트 형태                     | 정적 리소스 위치                 | 
