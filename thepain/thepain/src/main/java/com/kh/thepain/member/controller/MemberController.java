@@ -234,7 +234,6 @@ public class MemberController {
 	}
 
 	/**
-	 * @param emailx`
 		// 인증 코드 이메일 발송
 		emailService.sendCodeEmail(email, code + "");
 

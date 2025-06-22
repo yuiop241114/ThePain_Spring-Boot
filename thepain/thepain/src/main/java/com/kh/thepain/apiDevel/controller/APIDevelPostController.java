@@ -1,12 +1,21 @@
 package com.kh.thepain.apiDevel.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.thepain.apiDevel.jwtConfig.JwtUtil;
 import com.kh.thepain.apiDevel.model.service.APIDevelService;
 import com.kh.thepain.apiDevel.model.vo.ApiLogin;
 import com.kh.thepain.apiDevel.model.vo.ApiMember;
+import com.kh.thepain.common.model.vo.Attachment;
+import com.kh.thepain.member.model.vo.Member;
+import com.kh.thepain.myPage.controller.cvListController;
+import com.kh.thepain.myPage.model.service.MypageService;
 import com.kh.thepain.postList.controller.Post;
+import com.kh.thepain.postList.model.service.PostListServiceImpl;
+import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/postApi")
@@ -29,6 +39,16 @@ public class APIDevelPostController {
     private JwtUtil jwtUtil;
     @Autowired
     private APIDevelService apiService;
+    @Autowired
+    private cvListController cvController;
+
+    @Autowired
+    private PostListServiceImpl pService;
+    @Autowired
+    private MypageService mpService;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir; // 주입받을 필드명과 타입 일치
 
     /**
      * 로그인시 토큰 발생 메소드
@@ -46,17 +66,91 @@ public class APIDevelPostController {
     }
 
     @PostMapping(value="/insertPost")
-    public void insertPost(@RequestHeader("Authorization") String bearerToken){
+    public String insertPost(
+            @RequestHeader("Authorization") String bearerToken,
+            @RequestParam("img") MultipartFile img,
+            @RequestParam("pw") String postInfo,
+            HttpSession session){
         //이미지 및 채용공고 정보 받아서 등록
         String token = bearerToken.substring(7); //헤더에서 Token 추출
         String email = jwtUtil.getUsernameFromToken(token); //Token에 있는 아이디 추출
+        //JSON 형태로 온 데이터 파싱
+        ObjectMapper objectMapper = new ObjectMapper();
+        PostWrite pw = null;
+        try {
+            pw = objectMapper.readValue(postInfo, PostWrite.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         //채용담당자인지 확인
         ApiMember memberInfo = apiService.selectApiMember(email);
-        if(!memberInfo.getGitUserName().equals("")){
-            System.out.println("깃허브 회원");
+        if(memberInfo.getGitUserName() != null){
+            return "채용담당자 회원만 채용 공고 등록 가능합니다";
         }else{
-            System.out.println("채용담당자");
+            //회사 로고 및 채용 공고 정보를 받아서 등록
+            Attachment fileVo = new Attachment();
+            if (!img.getOriginalFilename().equals("")) {
+                // 원본명 저장
+                fileVo.setFileOriginName(img.getOriginalFilename());
+                // 변경명 저장
+                // saveFile 메소드를 만들어서 이름 변경 및 원하는 경로에 첨부파일 저장
+                fileVo.setFileEditName(cvController.saveFile(img, "img"));
+                // img를 저장할 회원번호
+                fileVo.setMemberNo(memberInfo.getMemberNo());
+                // fileTyep 지정
+                fileVo.setFileType("img");
+                // 저장 경로 작성
+                fileVo.setFileRoot(uploadDir + "img/");
+            }
+
+            // 급여 유효성 검사(salaryMax 가 salaryMin 보다 작을떄.)
+            if (pw.getSalaryMin() > pw.getSalaryMax()) {
+                return "급여 선택에 오류가 있습니다. 최대 급여가 최소 급여보다 작습니다.";
+            }
+
+            Date today = new Date();
+            boolean result11 = pw.getDeadLine().after(today);
+            if (!result11) {
+                return "입력한 날짜가 유효하지 않습니다. 다시 입력해주세요.";
+            }
+
+            PostList pl = new PostList();
+            pl.setMemberNo(memberInfo.getMemberNo());
+            pl.setEnterpriseNo(memberInfo.getEnterpriseNo());
+
+            pl.setDeadLine(pw.getDeadLine());
+
+            // job_post 작성 폼.
+            int result1 = pService.insertJobPost(pl);
+
+            // job_post 에 insert 가 잘 됬으면,
+            if (result1 > 0) {
+
+                // job_post의 최신 글 번호 조회
+                int postNo = pService.postNo(memberInfo.getMemberNo());
+                pw.setPostNo(postNo);
+
+                // db에 img 관련 정보 저장
+                fileVo.setRecruitmentNo(pw.getPostNo());
+                int result12 = mpService.resumeInsert(fileVo);
+
+                if (result12 > 0) {
+                    // job_write_post 를 insert
+                    int result = pService.insertJob(pw);
+                    if (result > 0) {
+                        return "redirect:/jobPostList.pl";
+                    } else {
+                        return "공고 내용 저장 실패";
+                    }//job_write_post 를 insert
+
+                }else {
+                    return "공고 이미지 저장 실패";
+                }//db에 img 관련 정보 저장
+
+            } else {
+                return "공고 작성 실패";
+            }//job_post 에 insert
         }
     }
 

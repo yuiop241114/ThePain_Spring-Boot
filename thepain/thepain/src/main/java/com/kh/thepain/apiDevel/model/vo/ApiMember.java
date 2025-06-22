@@ -14,6 +14,7 @@ public class ApiMember {
     private int memberNo;
     private String email;
     private String enterpriseName;
+    private int enterpriseNo;
     private String gitUserName;
     private String memberName;
     private String phone;

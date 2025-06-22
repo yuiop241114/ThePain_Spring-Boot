@@ -5,6 +5,7 @@ import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.myPage.model.service.MypageService;
 import com.kh.thepain.postList.model.vo.Apply;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class cvListController {
 
 	@Autowired
 	private MypageService mService;
+
+	@Value("${file.upload-dir}")
+	private String uploadDir; // 주입받을 필드명과 타입 일치
 
 	/**
 	 * @return 마이페이지에서 이력서 확인 페이지 이동 컨트롤러
@@ -55,13 +59,13 @@ public class cvListController {
 			fileVo.setFileOriginName(resumeFile.getOriginalFilename());
 			// 변경명 저장
 			// saveFile 메소드를 만들어서 이름 변경 및 원하는 경로에 첨부파일 저장
-			fileVo.setFileEditName(saveFile(session, resumeFile, "resume"));
+			fileVo.setFileEditName(saveFile(resumeFile, "resume"));
 			// 이력서를 저장할 회원번호
 			fileVo.setMemberNo(((Member) session.getAttribute("loginMember")).getMemberNo());
 			// fileTyep 지정
 			fileVo.setFileType("이력서");
 			// 저장 경로 작성
-			fileVo.setFileRoot("/resources/resume/");
+			fileVo.setFileRoot(uploadDir + "resume/");
 
 		}
 		// db에 이력서 관련 정보 저장
@@ -79,11 +83,10 @@ public class cvListController {
 	}
 
 	/**
-	 * @param session
 	 * @param upfile
 	 * @return 첨부파일 객체와 session을 받아서 첨부파일 저장 및 변경명으로 바꿔주는 메소드
 	 */
-	public static String saveFile(HttpSession session, MultipartFile upfile, String root) {
+	public String saveFile(MultipartFile upfile, String root /*,HttpSession session*/) {
 		String originName = upfile.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		int ranNum = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값
@@ -96,7 +99,8 @@ public class cvListController {
 
 		// 업로드 시키고자 하는 폴더의 물리적 경로
 		// session.getServletContext() => Application Scope
-		String savePath = session.getServletContext().getRealPath("/resources/" + root + "/");
+		//String savePath = session.getServletContext().getRealPath("resources/static/" + root + "/");
+		String savePath = uploadDir + root + "/";
 
 		try {
 			// 해당 경로에 변경된 이름으로 첨부파일을 저장

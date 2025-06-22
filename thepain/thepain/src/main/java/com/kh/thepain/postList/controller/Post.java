@@ -16,6 +16,7 @@ import com.kh.thepain.postList.model.vo.Apply;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,9 @@ public class Post {
 
 	@Autowired
 	private cvListController cvController;
+
+	@Value("${file.upload-dir}")
+	private String uploadDir; // 주입받을 필드명과 타입 일치
 
 	@RequestMapping("jobPostList.pl")
 	public String jobPostList(Model model, HttpSession session) {
@@ -145,13 +149,13 @@ public class Post {
 			fileVo.setFileOriginName(companyLogo.getOriginalFilename());
 			// 변경명 저장
 			// saveFile 메소드를 만들어서 이름 변경 및 원하는 경로에 첨부파일 저장
-			fileVo.setFileEditName(cvController.saveFile(session, companyLogo, "img"));
+			fileVo.setFileEditName(cvController.saveFile(companyLogo, "img"));
 			// img를 저장할 회원번호
 			fileVo.setMemberNo(((Member) session.getAttribute("loginMember")).getMemberNo());
 			// fileTyep 지정
 			fileVo.setFileType("img");
 			// 저장 경로 작성
-			fileVo.setFileRoot("/resources/img/");
+			fileVo.setFileRoot(uploadDir + "img/");
 		}
 
 		// 급여 유효성 검사(salaryMax 가 salaryMin 보다 작을떄.)
@@ -186,16 +190,11 @@ public class Post {
 			int postNo = pService.postNo(loginMember.getMemberNo());
 			pw.setPostNo(postNo);
 
-			
-			
-			
 			// db에 img 관련 정보 저장
 			fileVo.setRecruitmentNo(pw.getPostNo());
 			int result12 = mpService.resumeInsert(fileVo);
-			
-			
-			if (result12 > 0) {
 
+			if (result12 > 0) {
 				// job_write_post 를 insert 하자.
 				int result = pService.insertJob(pw);
 				if (result > 0) {

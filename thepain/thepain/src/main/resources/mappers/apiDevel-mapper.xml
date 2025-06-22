@@ -20,6 +20,7 @@
     <resultMap id="apiMemberResultMap" type="ApiMember">
         <result property="memberNo" column="member_no"/>
         <result property="enterpriseName" column="enterprise_name"/>
+        <result property="enterpriseNo" column="enterprise_no"/>
         <result property="email" column="email"/>
         <result property="gitUserName" column="git_username"/>
         <result property="memberName" column="member_name"/>
@@ -65,15 +66,16 @@
 
     <select id="selectApiMember" resultMap="apiMemberResultMap">
         select
-              m.member_no
-            , c.enterprise_name
-            , m.email
-            , m.git_username
-            , m.member_name
-            , m.phone
-            from member m
-            left join company c using (enterprise_no)
-            where m.email = #{memberId}
+               m.member_no
+             , c.enterprise_name
+             , enterprise_no
+             , m.email
+             , m.git_username
+             , m.member_name
+             , m.phone
+          from member m
+          left join company c using (enterprise_no)
+         where m.email = #{memberId}
     </select>
 
     <select id="selectSkills" resultMap="skillsResultMap">
