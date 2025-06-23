@@ -22,8 +22,6 @@ public class EmailService {
     
     
     /**
-     * @param to
-     * @param code
      * @param email
      * 일반 이메일 전송 서비스 메소드
      */

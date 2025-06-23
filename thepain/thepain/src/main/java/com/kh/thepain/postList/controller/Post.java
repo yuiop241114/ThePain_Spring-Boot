@@ -149,13 +149,13 @@ public class Post {
 			fileVo.setFileOriginName(companyLogo.getOriginalFilename());
 			// 변경명 저장
 			// saveFile 메소드를 만들어서 이름 변경 및 원하는 경로에 첨부파일 저장
-			fileVo.setFileEditName(cvController.saveFile(companyLogo, "img"));
+			fileVo.setFileEditName(cvController.saveFile(companyLogo, "postImg"));
 			// img를 저장할 회원번호
 			fileVo.setMemberNo(((Member) session.getAttribute("loginMember")).getMemberNo());
 			// fileTyep 지정
 			fileVo.setFileType("img");
 			// 저장 경로 작성
-			fileVo.setFileRoot(uploadDir + "img/");
+			fileVo.setFileRoot("/postImg/");
 		}
 
 		// 급여 유효성 검사(salaryMax 가 salaryMin 보다 작을떄.)

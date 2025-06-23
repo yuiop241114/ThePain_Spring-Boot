@@ -61,4 +61,10 @@ public interface PostListMapper {
     PostList selectCompany(int recruitmentNo);
 
     String selectCompanyName(int companyNo);
+
+    /**
+     * 채용공고 최신순 이미지 정보 조회
+     * @return
+     */
+    ArrayList<Attachment> imgList(int memberNo);
 }

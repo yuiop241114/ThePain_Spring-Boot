@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.commonmark:commonmark:0.21.0'
 
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	compileOnly 'org.projectlombok:lombok'
 	implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
 	annotationProcessor 'org.projectlombok:lombok'

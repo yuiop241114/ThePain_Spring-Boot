@@ -65,7 +65,7 @@ public class cvListController {
 			// fileTyep 지정
 			fileVo.setFileType("이력서");
 			// 저장 경로 작성
-			fileVo.setFileRoot(uploadDir + "resume/");
+			fileVo.setFileRoot("/resume/");
 
 		}
 		// db에 이력서 관련 정보 저장
@@ -86,7 +86,7 @@ public class cvListController {
 	 * @param upfile
 	 * @return 첨부파일 객체와 session을 받아서 첨부파일 저장 및 변경명으로 바꿔주는 메소드
 	 */
-	public String saveFile(MultipartFile upfile, String root /*,HttpSession session*/) {
+	public String saveFile(MultipartFile upfile, String root) {
 		String originName = upfile.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		int ranNum = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값

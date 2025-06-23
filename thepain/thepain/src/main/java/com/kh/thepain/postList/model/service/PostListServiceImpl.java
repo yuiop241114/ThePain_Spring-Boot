@@ -7,6 +7,7 @@ import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -268,6 +269,14 @@ public ArrayList<PostList> selectJobPostList() {
 
 	public String selectCompanyName(int companyNo) {
 		return PLDao.selectCompanyName(companyNo);
+	}
+
+	/**
+	 * 채용공고 최신순 이미지 정보 조회
+	 * @return
+	 */
+	public ArrayList<Attachment> imgList(int memberNo) {
+		return PLDao.imgList(memberNo);
 	}
 
 }

@@ -47,8 +47,6 @@ public class APIDevelPostController {
     @Autowired
     private MypageService mpService;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir; // 주입받을 필드명과 타입 일치
 
     /**
      * 로그인시 토큰 발생 메소드
@@ -95,13 +93,13 @@ public class APIDevelPostController {
                 fileVo.setFileOriginName(img.getOriginalFilename());
                 // 변경명 저장
                 // saveFile 메소드를 만들어서 이름 변경 및 원하는 경로에 첨부파일 저장
-                fileVo.setFileEditName(cvController.saveFile(img, "img"));
+                fileVo.setFileEditName(cvController.saveFile(img, "postImg"));
                 // img를 저장할 회원번호
                 fileVo.setMemberNo(memberInfo.getMemberNo());
                 // fileTyep 지정
                 fileVo.setFileType("img");
                 // 저장 경로 작성
-                fileVo.setFileRoot(uploadDir + "img/");
+                fileVo.setFileRoot("/postImg/");
             }
 
             // 급여 유효성 검사(salaryMax 가 salaryMin 보다 작을떄.)
@@ -139,7 +137,7 @@ public class APIDevelPostController {
                     // job_write_post 를 insert
                     int result = pService.insertJob(pw);
                     if (result > 0) {
-                        return "redirect:/jobPostList.pl";
+                        return "채용공고 등록 성공";
                     } else {
                         return "공고 내용 저장 실패";
                     }//job_write_post 를 insert

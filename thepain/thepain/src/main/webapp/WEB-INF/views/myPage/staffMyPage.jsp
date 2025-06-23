@@ -84,10 +84,10 @@
 				<div class="post-wrapper">
 					<c:choose>
 						<c:when test="${not empty postWriteList}">
-							<c:forEach var="post" items="${postWriteList}">
+							<c:forEach var="post" items="${postWriteList}" varStatus="status">
 								<div class="upload-box" onclick="applierList(${post.recruitmentNo})">
 									<div class="job-image">
-										<img src="${path}/img/company1.png"
+										<img src="${imgList[status.index].fileRoot}${imgList[status.index].fileEditName}"
 											alt="${post.companyName}" class="cyber-img" />
 									</div>
 									<div class="job-info">

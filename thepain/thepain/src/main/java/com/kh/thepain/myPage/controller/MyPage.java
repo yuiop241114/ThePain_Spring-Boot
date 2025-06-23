@@ -13,6 +13,8 @@ import com.kh.thepain.jjim.model.service.JjimService;
 import com.kh.thepain.member.model.service.MemberService;
 import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.myPage.model.service.MypageService;
+import com.kh.thepain.postList.model.service.PostListService;
+import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.Apply;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
@@ -55,6 +57,9 @@ public class MyPage {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private PostListServiceImpl postService;
 
 	/**
 	 * @param session
@@ -270,6 +275,9 @@ public class MyPage {
 		ArrayList<PostWrite> postWriteList = myService.postWriteList(loginMember.getMemberNo());
 		model.addAttribute("postWriteList", postWriteList);
 
+		//채용공고 이미지 조회
+		model.addAttribute( "imgList", postService.imgList(loginMember.getMemberNo()) );
+
 		String profileFileName = myService.selectLatestProfileByMemberNo(loginMember.getMemberNo());
 
 		if (profileFileName == null || "null".equals(profileFileName)) {
@@ -285,10 +293,13 @@ public class MyPage {
 	 * @return 해당 공고 지원자 리스트 페이지 이동 컨트롤러
 	 */
 	@RequestMapping("applierList.my")
-	public String applierList(int postNo, Model model) {
+	public String applierList(int postNo, Model model, HttpSession session) {
 		// 채용공고 출력을 위한 정보 조회
 		PostList postList = myService.postWriteInfo(postNo);
 		model.addAttribute("postWrite", postList);
+
+		//채용공고 이미지 리스트
+		model.addAttribute("imgList", myService.selectImg(postNo) );
 
 		// 채용공고에 지원한 지원 정보 조회
 		ArrayList<Apply> applyList = new ArrayList<Apply>();

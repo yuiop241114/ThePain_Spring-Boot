@@ -273,6 +273,7 @@
 		FILE_TYPE
 		FROM ATTACHMENT
 		WHERE MEMBER_NO = #{memberNo}
+		  and file_type = '이력서'
 	</select>
 	<select id="selectSenderNo" resultType="_int">
 		select member_No
@@ -389,4 +390,22 @@
 		 where ENTERPRISE_NO = #{companyNo}
 	</select>
 
+	<select id="imgList" resultMap="attachmentResultSet">
+		select
+		FILE_NO
+		, RECRUITMENT_NO
+		, MEMBER_NO
+		, FILE_ORIGIN_NAME
+		, FILE_EDIT_NAME
+		, FILE_ROOT
+		, FILE_TYPE
+		from attachment
+		where file_type = 'img'
+		<if test="memberNo != 0">
+			and member_no = #{memberNo}
+		</if>
+		order
+		by recruitment_no desc
+
+	</select>
 </mapper>

@@ -30,7 +30,7 @@
 				<div class="post-div">
 					<div class="upload-box">
 				      <div class="job-image">
-				        <img src="${path}/img/company1.png" alt="${postWrite.companyName}" class="cyber-img" />
+				        <img src="${imgList.fileRoot}${imgList.fileEditName}" alt="${postWrite.companyName}" class="cyber-img" />
 				      </div>
 				      <div class="job-info">
 				        <div class="job-title">[${postWrite.hireType}] ${fn:substring(postWrite.description, 0, 30)}...</div>

@@ -306,4 +306,12 @@ public class PostListDao {
 	public String selectCompanyName(int companyNo) {
 		return plMapper.selectCompanyName(companyNo);
 	}
+
+	/**
+	 * 채용공고 최신순 이미지 정보 조회
+	 * @return
+	 */
+	public ArrayList<Attachment> imgList(int memberNo){
+		return plMapper.imgList(memberNo);
+	}
 }
