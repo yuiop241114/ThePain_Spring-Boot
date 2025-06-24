@@ -55,8 +55,8 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 **📂 이미지 및 첨부 파일 위치 수정 및 소스 코드 리팩토링** <br>
 - 이미지 및 첨부 파일을 프로젝트에 static 경로로 저장하는 경우 배포나 빌드 시 소실되는 경우가 발생할 가능성이 존재 하기 때문에 만일을 대비하여 프로젝트 외부에 파일을 저장하는 방식으로 변경 하였습니다
 - 외부 경로를 사용하기 위해 application.properties에 첨부 파일을 저장하기 위한 절대 경로를 설정하였습니다.
-<br>
 <img src="https://raw.githubusercontent.com/yuiop241114/ThePain_Spring-Boot/main/thepain/thepain/src/main/resources/static/img/외부경로.png" width="500"/>
+<br>
 - 첨부 파일을 용도에 따라 구분하여 저장 및 사용하기 위해 원하는 경로에 따라 다른 디렉토리에 저장하게 설정하였습니다
 <br>
 <img src="https://raw.githubusercontent.com/yuiop241114/ThePain_Spring-Boot/main/thepain/thepain/src/main/resources/static/img/외부 경로2.png" width="700"/>
