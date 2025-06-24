@@ -45,6 +45,7 @@ public class Configuration implements WebMvcConfigurer {
 				.authorizeHttpRequests(auth -> auth
 						//.antMatchers("/postApi/**", "/**").permitAll() //해당 URL은 인증 없이 접근 가능
 						//.anyRequest().authenticated() //바로 위에서 설정한 URL 이외 다른 경로는 인증이 필요
+						//.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						.antMatchers("/getApi/**").authenticated() //해당 URL은 인증하여 접근
 						.anyRequest().permitAll() // 위에서 지정한 URL 이외 다른 경로들은 인증없이 접근 가능
 				)
