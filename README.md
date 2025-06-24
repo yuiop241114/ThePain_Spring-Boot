@@ -49,6 +49,11 @@ Spring Legacy Projecy에서는 SqlSession 객체를 사용하여 직접 호출 �
 | Spring Boot(Gradle-Groovy) | `Controller -> Service -> Mapper`     |
 
 
+**이미지 및 첨부 파일 위치 수정 및 소스 코드 리팩토링**
+이미지 및 첨부 파일을 프로젝트에 static 경로로 저장하는 경우 배포나 빌드 시 소실되는 경우가 발생할 가능성이 존재 하기 때문에 만일을 대비하여 프로젝트 외부에 파일을 저장하는 방식으로 변경 하였습니다
+
+
+
 ## 2. RESTful API 설계 및 개발
 **🔐 JWT를 사용하여 Token 발행 및 검증** <br>
 API 설계 과정에서 만약 API를 개발한다고 하더라도 URL만 알고 있다면 누구나 접근할 수 있는 보안 상 허점이 존재하여 
