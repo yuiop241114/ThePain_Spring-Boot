@@ -4,6 +4,7 @@ import com.kh.thepain.common.model.vo.Attachment;
 import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.myPage.model.service.MypageService;
 import com.kh.thepain.postList.model.vo.Apply;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Hidden
 @Controller
 //이력서 컨트롤러
 public class cvListController {

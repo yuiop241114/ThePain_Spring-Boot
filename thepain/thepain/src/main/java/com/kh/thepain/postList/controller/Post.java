@@ -15,6 +15,7 @@ import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.Apply;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Hidden
 @Controller
 public class Post {
 

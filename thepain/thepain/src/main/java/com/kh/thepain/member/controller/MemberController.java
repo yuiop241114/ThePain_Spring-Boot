@@ -10,6 +10,7 @@ import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.myPage.model.service.MypageService;
 import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Hidden
 @Controller
 public class MemberController {
 

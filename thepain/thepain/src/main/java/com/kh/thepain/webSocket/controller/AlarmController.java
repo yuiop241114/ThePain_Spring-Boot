@@ -6,6 +6,7 @@ import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.webSocket.model.service.AlarmService;
 import com.kh.thepain.webSocket.model.vo.Alarm;
 import com.kh.thepain.webSocket.model.vo.AlarmHistory;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
+@Hidden
 @Controller
 public class AlarmController {
 

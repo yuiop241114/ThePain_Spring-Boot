@@ -14,6 +14,7 @@ import com.kh.thepain.postList.controller.Post;
 import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,6 +54,7 @@ public class APIDevelPostController {
      * @param apiLogin
      * @return
      */
+    @Operation(summary = "로그인시 토큰을 발행",description = "기본 토큰만 발행합니다. 만료시간은 1시간입니다")
     @PostMapping(value="/loginToken")
     public String loginToken(@RequestBody ApiLogin apiLogin) {
         //입력 받은 아이디 및 비밀번호 인증
@@ -63,6 +65,15 @@ public class APIDevelPostController {
         return jwtUtil.generateToken(authentication.getName());
     }
 
+    /**
+     * 회사 로고(이미지) 맟 채용공고 내용을 입력 받아서 채용 공고 등록
+     * @param bearerToken
+     * @param img
+     * @param postInfo
+     * @param session
+     * @return
+     */
+    @Operation(summary = "채용 공고 등록", description = "회사 로고(이미지) 맟 채용공고 내용을 입력 받아서 채용 공고 등록합니다. 채용담당자 회원만 가능합니다")
     @PostMapping(value="/insertPost")
     public String insertPost(
             @RequestHeader("Authorization") String bearerToken,

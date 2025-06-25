@@ -3,6 +3,7 @@ package com.kh.thepain.jjim.controller;
 import com.kh.thepain.jjim.model.service.JjimService;
 import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.postList.model.vo.PostList;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
+@Hidden
 @Controller
 public class JjimController {
 
