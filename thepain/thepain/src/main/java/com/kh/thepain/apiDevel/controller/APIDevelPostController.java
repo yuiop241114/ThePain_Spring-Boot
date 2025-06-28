@@ -15,6 +15,7 @@ import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
 import com.kh.thepain.postList.model.vo.PostWrite;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
+@Tag(name= "Thepain Post 메소드 API", description = "Thepain 사이트 기능 사용을 위한 API")
 @RestController
 @RequestMapping("/postApi")
 public class APIDevelPostController {

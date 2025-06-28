@@ -9,12 +9,14 @@ import com.kh.thepain.member.model.vo.Member;
 import com.kh.thepain.postList.model.service.PostListServiceImpl;
 import com.kh.thepain.postList.model.vo.PostList;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Thepain GET 메소드 API", description = "Thepain 사이트의 정보를 조회 하기 위한 API")
 @RestController
 @RequestMapping("/getApi")
 public class APIDevelGetController {
