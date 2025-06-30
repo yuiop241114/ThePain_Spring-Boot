@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
-@Tag(name= "Thepain Post 메소드 API", description = "Thepain 사이트 기능 사용을 위한 API")
+@Tag(name= "Post 메소드 API", description = "Thepain 사이트 기능 사용을 위한 API")
 @RestController
 @RequestMapping("/postApi")
 public class APIDevelPostController {

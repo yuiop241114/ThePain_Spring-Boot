@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Tag(name = "Thepain GET 메소드 API", description = "Thepain 사이트의 정보를 조회 하기 위한 API")
+@Tag(name = "GET 메소드 API", description = "Thepain 사이트의 정보를 조회 하기 위한 API")
 @RestController
 @RequestMapping("/getApi")
 public class APIDevelGetController {
