@@ -86,3 +86,5 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 |--------------------------|--------------------|------------------|
 | 아이디/비밀번호로 토큰 발행 | `/postApi/loginToken`      | X               |
 | 채용공고 등록 | `/postApi/insertPost`      | X               |
+
+## 3. AWS를 사용한 배포
