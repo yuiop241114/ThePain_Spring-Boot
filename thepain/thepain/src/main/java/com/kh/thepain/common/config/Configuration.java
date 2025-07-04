@@ -71,13 +71,23 @@ public class Configuration implements WebMvcConfigurer {
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// 윈도우 경로는 역슬래시(\) 대신 슬래시(/) 사용 가능
+		// 윈도우에서 외부 위치 지정
+		/*
 		registry.addResourceHandler("/postImg/**") //개발 시 이미지를 불러오기 위한 호출 코드
 				.addResourceLocations("file:///C:/StudyFile/APIDevel/upload/postImg/"); //실제 이미지 및 첨부 파일 위치 작성
 
 		//이력서 외부 위치 지정
 		registry.addResourceHandler("/resume/**")
 				.addResourceLocations("file:///C:/StudyFile/APIDevel/upload/resume/");
+
+		 */
+
+		// EC2 Linux에서 프로젝트 외부 위치 지정
+		registry.addResourceHandler("/postImg/**")
+				.addResourceLocations("file:/home/ubuntu/uploads/postImg/");
+
+		registry.addResourceHandler("/resume/**")
+				.addResourceLocations("file:/home/ubuntu/uploads/resume/");
 	}
 	
 }
