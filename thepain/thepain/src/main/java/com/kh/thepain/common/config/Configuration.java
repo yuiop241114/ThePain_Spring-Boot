@@ -54,6 +54,7 @@ public class Configuration implements WebMvcConfigurer {
 				.build(); //SecurityFilterChain 객체 생성
 	}
 
+
 	@Bean
 	public AuthenticationManager authManager(HttpSecurity http) throws Exception {
 		//Spring Security의 인증 빌더(AuthenticationManagerBuilder)를 가져옴
