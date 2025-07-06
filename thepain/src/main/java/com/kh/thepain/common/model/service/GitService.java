@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.stream.Collectors;
 
-@PropertySource("classpath:git.properties")
+@PropertySource("classpath:config/git.properties")
 @Service
 public class GitService {
 
