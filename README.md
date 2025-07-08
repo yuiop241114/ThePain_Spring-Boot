@@ -88,3 +88,8 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 | 채용공고 등록 | `/postApi/insertPost`      | X               |
 
 ## 3. AWS를 사용한 배포
+**데이터 베이스 설치**
+- 데이터 베이스는 오라클을 사용하는데 AWS에 있는 RDS의 경우 오라클 사용을 유료로 해야하기 때문에 EC2 환경에 직접 설치하여 사용했습니다.
+
+**Github Actions를 이용한 CI/CD 파이프라인 구축**
+- 수동으로 배포 및 빌드 하는 경우 매우 번거롭기 때문에 GitHub에 수정한 코드를 올릴 경우 자동으로 빌드 및 EC2로 배포되게 하였습니다.
