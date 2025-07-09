@@ -93,3 +93,4 @@ Spring Legacy Proeject를 Spring Boot로 전환하는 작업을 진행하였습�
 
 **Github Actions를 이용한 CI/CD 파이프라인 구축**
 - 수동으로 배포 및 빌드 하는 경우 매우 번거롭기 때문에 GitHub에 수정한 코드를 올릴 경우 자동으로 빌드 및 EC2로 배포되게 하였습니다.
+- Workflow를 통해 원하는 동작을 설정하여 Github에 Push 할 경우 자동 빌드 및 배포를 할 수 있게 하였습니다.
