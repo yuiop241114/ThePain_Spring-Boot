@@ -19,7 +19,7 @@
 		<a href="goMainPage.me" id="logohome">
 			<div class="logo">
 				<div class="logo-content">
-					<img src="/img/loginFormLogo.png" alt="DrsP 로고"
+					<img src="${path}/postImg/2025062317033835594.png" alt="DrsP 로고"
 						class="drsp-logo" />
 				</div>
 			</div>
