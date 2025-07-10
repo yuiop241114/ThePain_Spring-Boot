@@ -85,10 +85,10 @@ public class Configuration implements WebMvcConfigurer {
 
 		// EC2 Linux에서 프로젝트 외부 위치 지정
 		registry.addResourceHandler("/postImg/**")
-				.addResourceLocations("file:/home/ubuntu/uploads/postImg/");
+				.addResourceLocations("file:/home/ubuntu/upload/postImg/");
 
 		registry.addResourceHandler("/resume/**")
-				.addResourceLocations("file:/home/ubuntu/uploads/resume/");
+				.addResourceLocations("file:/home/ubuntu/upload/resume/");
 	}
 	
 }
